@@ -74,14 +74,13 @@ class TripController {
 
   async createTrip(req, res) {
     try {
-      const { title, destination, departureLocation, departureCoordinates, startDate, endDate, budget, status, preferences, coverImage } = req.body;
+      const { title, destination, departureLocation, startDate, endDate, budget, status, preferences, coverImage } = req.body;
 
       const trip = await Trip.create({
         userId: req.user.id,
         title,
         destination,
         departureLocation,
-        departureCoordinates,
         startDate,
         endDate,
         budget,
@@ -102,7 +101,7 @@ class TripController {
   async updateTrip(req, res, next) {
     try {
       const { id } = req.params;
-      const { title, destination, departureLocation, departureCoordinates, startDate, endDate, budget, status, preferences, coverImage } = req.body;
+      const { title, destination, departureLocation, startDate, endDate, budget, status, preferences, coverImage } = req.body;
 
       const trip = await Trip.findOne({
         where: { id, userId: req.user.id }
@@ -114,7 +113,6 @@ class TripController {
         title: title || trip.title,
         destination: destination || trip.destination,
         departureLocation: departureLocation || trip.departureLocation,
-        departureCoordinates: departureCoordinates || trip.departureCoordinates,
         startDate: startDate || trip.startDate,
         endDate: endDate || trip.endDate,
         budget: budget !== undefined ? budget : trip.budget,

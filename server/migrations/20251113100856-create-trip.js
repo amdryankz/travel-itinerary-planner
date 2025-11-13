@@ -31,10 +31,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      departureCoordinates: {
-        type: Sequelize.JSONB,
-        allowNull: true,
-      },
       startDate: {
         type: Sequelize.DATE,
         allowNull: false

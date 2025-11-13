@@ -33,10 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    departureCoordinates: {
-      type: DataTypes.JSONB,
-      allowNull: true
-    },
     destination: {
       type: DataTypes.STRING,
       allowNull: false

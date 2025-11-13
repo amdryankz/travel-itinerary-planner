@@ -19,6 +19,36 @@ const errorHandler = (err, req, res, next) => {
     status = 400
   }
 
+  if (err.name === "InvalidDateRange") {
+    message = "End date must be after start date"
+    status = 400
+  }
+
+  if (err.name === "NoActivities") {
+    message = "No activities to optimize"
+    status = 400
+  }
+
+  if (err.name === "QueryBadRequest") {
+    message = "Query is required"
+    status = 400
+  }
+
+  if (err.name === "AddressBadRequest") {
+    message = "Address is required"
+    status = 400
+  }
+
+  if (err.name === "PlaceBadRequest") {
+    message = "Origin and destination are required"
+    status = 400
+  }
+
+  if (err.name === "QueryLocationBadRequest") {
+    message = "Query and location are required"
+    status = 400
+  }
+
   if (err.name === "LoginError") {
     message = "Email or Password is invalid"
     status = 401

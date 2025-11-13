@@ -2,7 +2,7 @@ const { Client } = require('@googlemaps/google-maps-services-js');
 const client = new Client({});
 
 class MapsService {
-  async geocode(address) {
+  static async geocode(address) {
     try {
       const response = await client.geocode({
         params: {
@@ -27,7 +27,7 @@ class MapsService {
     }
   }
 
-  async getDistance(origin, destination) {
+  static async getDistance(origin, destination) {
     try {
       const response = await client.distancematrix({
         params: {
@@ -55,7 +55,7 @@ class MapsService {
     }
   }
 
-  async searchPlaces(query, location) {
+  static async searchPlaces(query, location) {
     try {
       const response = await client.textSearch({
         params: {

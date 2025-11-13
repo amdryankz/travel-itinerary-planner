@@ -2,7 +2,7 @@ const { Trip, Activity, Expense } = require('../models');
 const { Op } = require('sequelize');
 
 class TripController {
-  async getTrips(req, res, next) {
+  static async getTrips(req, res, next) {
     try {
       const { status, search } = req.query;
 
@@ -39,7 +39,7 @@ class TripController {
     }
   }
 
-  async getTrip(req, res, next) {
+  static async getTrip(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -72,7 +72,7 @@ class TripController {
     }
   }
 
-  async createTrip(req, res) {
+  static async createTrip(req, res, next) {
     try {
       const { title, destination, departureLocation, startDate, endDate, budget, status, preferences, coverImage } = req.body;
 
@@ -98,7 +98,7 @@ class TripController {
     }
   }
 
-  async updateTrip(req, res, next) {
+  static async updateTrip(req, res, next) {
     try {
       const { id } = req.params;
       const { title, destination, departureLocation, startDate, endDate, budget, status, preferences, coverImage } = req.body;
@@ -130,7 +130,7 @@ class TripController {
     }
   }
 
-  async deleteTrip(req, res, next) {
+  static async deleteTrip(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -150,7 +150,7 @@ class TripController {
     }
   }
 
-  async getTripStats(req, res, next) {
+  static async getTripStats(req, res, next) {
     try {
       const trips = await Trip.findAll({
         where: { userId: req.user.id },

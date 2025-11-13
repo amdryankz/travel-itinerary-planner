@@ -2,7 +2,7 @@ const { Expense, Trip, Activity } = require('../models');
 const { Op } = require('sequelize');
 
 class ExpenseController {
-  async getExpenses(req, res, next) {
+  static async getExpenses(req, res, next) {
     try {
       const { tripId } = req.params;
       const { category, startDate, endDate } = req.query;
@@ -55,7 +55,7 @@ class ExpenseController {
     }
   }
 
-  async getExpense(req, res, next) {
+  static async getExpense(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -85,7 +85,7 @@ class ExpenseController {
     }
   }
 
-  async createExpense(req, res, next) {
+  static async createExpense(req, res, next) {
     try {
       const { tripId } = req.params;
       const { activityId, amount, category, description, date } = req.body;
@@ -122,7 +122,7 @@ class ExpenseController {
     }
   }
 
-  async updateExpense(req, res, next) {
+  static async updateExpense(req, res, next) {
     try {
       const { id } = req.params;
       const updateData = req.body;
@@ -151,7 +151,7 @@ class ExpenseController {
     }
   }
 
-  async deleteExpense(req, res, next) {
+  static async deleteExpense(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -178,7 +178,7 @@ class ExpenseController {
     }
   }
 
-  async getExpenseStats(req, res, next) {
+  static async getExpenseStats(req, res, next) {
     try {
       const { tripId } = req.params;
 
@@ -227,7 +227,7 @@ class ExpenseController {
     }
   }
 
-  async bulkCreateExpenses(req, res, next) {
+  static async bulkCreateExpenses(req, res, next) {
     try {
       const { tripId } = req.params;
       const { expenses } = req.body;

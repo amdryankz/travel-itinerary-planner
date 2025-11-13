@@ -6,7 +6,7 @@ class GeminiService {
     this.model = genAI.models({ model: 'gemini-2.5-flash' });
   }
 
-  async generateItinerary(destination, departureLocation, startDate, endDate, budget, preferences) {
+  static async generateItinerary(destination, departureLocation, startDate, endDate, budget, preferences) {
     try {
       const prompt = `Anda adalah perencana perjalanan profesional. Buat rencana perjalanan (itinerary) yang detail berdasarkan informasi berikut:
 
@@ -77,7 +77,7 @@ PENTING:
     }
   }
 
-  async optimizeRoute(activities) {
+  static async optimizeRoute(activities) {
     try {
       const prompt = `Anda adalah seorang ahli optimasi rute. Berdasarkan aktivitas berikut, urutkan kembali agar rutenya paling efisien, dengan mempertimbangkan:
 - Kedekatan geografis
@@ -109,7 +109,7 @@ Berikan HANYA respons JSON, tanpa penjelasan atau teks tambahan.`;
     }
   }
 
-  async getSuggestions(query) {
+  static async getSuggestions(query) {
     try {
       const prompt = `Anda adalah asisten perjalanan yang membantu. Jawab pertanyaan terkait perjalanan ini secara ringkas dan praktis:
 
@@ -128,7 +128,7 @@ Berikan jawaban dalam Bahasa Indonesia yang membantu, akurat, dan fokus pada sar
     }
   }
 
-  async generateActivitySuggestions(destination, day, existingActivities = []) {
+  static async generateActivitySuggestions(destination, day, existingActivities = []) {
     try {
       const prompt = `Sarankan 5 aktivitas menarik untuk hari ke-${day} di ${destination}.
 
@@ -172,7 +172,7 @@ PENTING:
     }
   }
 
-  async analyzeTripBudget(activities, totalBudget) {
+  static async analyzeTripBudget(activities, totalBudget) {
     try {
       const totalCost = activities.reduce((sum, act) => sum + (act.cost || 0), 0);
 

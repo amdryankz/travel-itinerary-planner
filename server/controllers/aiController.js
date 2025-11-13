@@ -1,9 +1,9 @@
-const geminiService = require('../services/gemini.service');
-const mapsService = require('../services/maps.service');
+const geminiService = require('../services/gemini');
+const mapsService = require('../services/maps');
 const { Trip, Activity } = require('../models');
 
 class AIController {
-  async generateItinerary(req, res, next) {
+  static async generateItinerary(req, res, next) {
     try {
       const { destination, departureLocation, startDate, endDate, budget, preferences } = req.body;
 
@@ -30,7 +30,7 @@ class AIController {
     }
   }
 
-  async optimizeRoute(req, res, next) {
+  static async optimizeRoute(req, res, next) {
     try {
       const { tripId } = req.params;
 
@@ -69,7 +69,7 @@ class AIController {
     }
   }
 
-  async getSuggestions(req, res, next) {
+  static async getSuggestions(req, res, next) {
     try {
       const { query } = req.body;
 
@@ -86,7 +86,7 @@ class AIController {
     }
   }
 
-  async getActivitySuggestions(req, res, next) {
+  static async getActivitySuggestions(req, res, next) {
     try {
       const { tripId } = req.params;
       const { day } = req.query;
@@ -119,7 +119,7 @@ class AIController {
     }
   }
 
-  async analyzeBudget(req, res, next) {
+  static async analyzeBudget(req, res, next) {
     try {
       const { tripId } = req.params;
 
@@ -149,7 +149,7 @@ class AIController {
     }
   }
 
-  async geocodeLocation(req, res, next) {
+  static async geocodeLocation(req, res, next) {
     try {
       const { address } = req.body;
 
@@ -167,7 +167,7 @@ class AIController {
     }
   }
 
-  async getDistance(req, res, next) {
+  static async getDistance(req, res, next) {
     try {
       const { origin, destination } = req.body;
 
@@ -186,7 +186,7 @@ class AIController {
     }
   }
 
-  async searchPlaces(req, res, next) {
+  static async searchPlaces(req, res, next) {
     try {
       const { query, location } = req.body;
 

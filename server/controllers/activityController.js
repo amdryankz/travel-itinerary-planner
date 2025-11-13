@@ -1,7 +1,7 @@
 const { Activity, Trip } = require('../models');
 
 class ActivityController {
-  async getActivities(req, res, next) {
+  static async getActivities(req, res, next) {
     try {
       const { tripId } = req.params;
 
@@ -25,7 +25,7 @@ class ActivityController {
     }
   }
 
-  async getActivity(req, res, next) {
+  static async getActivity(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -51,7 +51,7 @@ class ActivityController {
     }
   }
 
-  async createActivity(req, res, next) {
+  static async createActivity(req, res, next) {
     try {
       const { tripId } = req.params;
       const { day, title, description, location, startTime, endTime, duration, category, cost, notes, order } = req.body;
@@ -86,7 +86,7 @@ class ActivityController {
     }
   }
 
-  async updateActivity(req, res, next) {
+  static async updateActivity(req, res, next) {
     try {
       const { id } = req.params;
       const updateData = req.body;
@@ -115,7 +115,7 @@ class ActivityController {
     }
   }
 
-  async deleteActivity(req, res, next) {
+  static async deleteActivity(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -142,7 +142,7 @@ class ActivityController {
     }
   }
 
-  async bulkCreateActivities(req, res, next) {
+  static async bulkCreateActivities(req, res, next) {
     try {
       const { tripId } = req.params;
       const { activities } = req.body;
@@ -188,7 +188,7 @@ class ActivityController {
     }
   }
 
-  async reorderActivities(req, res, next) {
+  static async reorderActivities(req, res, next) {
     try {
       const { tripId } = req.params;
       const { activities } = req.body;

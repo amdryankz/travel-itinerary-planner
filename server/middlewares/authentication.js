@@ -13,8 +13,8 @@ const authentication = async (req, res, next) => {
     const user = await User.findByPk(payload.id)
     if (!user) throw { name: "Unauthorized" }
 
-    req.loginInfo = {
-      userId: user.id,
+    req.user = {
+      id: user.id,
       email: user.email,
     }
 

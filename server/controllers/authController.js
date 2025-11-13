@@ -34,9 +34,11 @@ class AuthController {
         }
       })
 
+      if (!user) throw { name: "LoginError" }
+
       const comparePassword = await bcrypt.compare(password, user.password)
 
-      if (!user || !comparePassword) throw { name: "LoginError" }
+      if (!comparePassword) throw { name: "LoginError" }
 
       const payload = {
         id: user.id,

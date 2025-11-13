@@ -97,7 +97,8 @@ class AIController {
           {
             model: Activity,
             as: 'activities',
-            where: { day: day || 1 }
+            where: { day: day || 1 },
+            required: false
           }
         ]
       });
@@ -107,7 +108,7 @@ class AIController {
       const suggestions = await geminiService.generateActivitySuggestions(
         trip.destination,
         day || 1,
-        trip.activities
+        trip.activities || []
       );
 
       return res.status(200).json({

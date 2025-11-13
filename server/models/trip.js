@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Trip.belongsTo(models.User, { foreignKey: 'userId', });
-      Trip.hasMany(models.Activity, { foreignKey: 'tripId' });
-      Trip.hasMany(models.Expense, { foreignKey: 'tripId' });
+      Trip.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+      Trip.hasMany(models.Activity, { foreignKey: 'tripId', as: 'activities' });
+      Trip.hasMany(models.Expense, { foreignKey: 'tripId', as: 'expenses' });
     }
   }
   Trip.init({

@@ -89,6 +89,23 @@ class AuthController {
       next(err)
     }
   }
+
+  static async getMe(req, res, next) {
+    try {
+      const user = await User.findByPk(req.user.id, {
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+      })
+
+      if (!user) throw { name: "NotFound", id: req.user.id }
+
+      return res.status(200).json({
+        message: "User retrieved successfully",
+        data: user
+      })
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = AuthController

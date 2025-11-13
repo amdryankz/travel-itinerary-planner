@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Trip.belongsTo(models.User, { foreignKey: 'userId', });
+      Trip.hasMany(models.Activity, { foreignKey: 'tripId' });
+      Trip.hasMany(models.Expense, { foreignKey: 'tripId' });
     }
   }
   Trip.init({

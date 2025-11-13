@@ -4,6 +4,7 @@ const authentication = require('../middlewares/authentication')
 const authRouter = require('./auth')
 const tripRouter = require('./trip')
 const activityRouter = require('./activity')
+const expenseRouter = require('./expense')
 
 const router = express.Router()
 
@@ -11,6 +12,7 @@ router.use('/auth', authRouter)
 router.use(authentication)
 router.use('/trips', tripRouter)
 router.use('/activities', activityRouter)
+router.use('/expenses', expenseRouter)
 router.use(errorHandler)
 
 module.exports = router

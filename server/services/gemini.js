@@ -1,12 +1,12 @@
-const { GoogleGenAI } = require('@google/genai');
-const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY);
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 class GeminiService {
   constructor() {
-    this.model = genAI.models({ model: 'gemini-2.5-flash' });
+    this.model = genAI.getGenerativeModel({ model: process.env.MODEL_NAME });
   }
 
-  static async generateItinerary(destination, departureLocation, startDate, endDate, budget, preferences) {
+  async generateItinerary(destination, departureLocation, startDate, endDate, budget, preferences) {
     try {
       const prompt = `Anda adalah perencana perjalanan profesional. Buat rencana perjalanan (itinerary) yang detail berdasarkan informasi berikut:
 
@@ -77,7 +77,7 @@ PENTING:
     }
   }
 
-  static async optimizeRoute(activities) {
+  async optimizeRoute(activities) {
     try {
       const prompt = `Anda adalah seorang ahli optimasi rute. Berdasarkan aktivitas berikut, urutkan kembali agar rutenya paling efisien, dengan mempertimbangkan:
 - Kedekatan geografis
@@ -109,7 +109,7 @@ Berikan HANYA respons JSON, tanpa penjelasan atau teks tambahan.`;
     }
   }
 
-  static async getSuggestions(query) {
+  async getSuggestions(query) {
     try {
       const prompt = `Anda adalah asisten perjalanan yang membantu. Jawab pertanyaan terkait perjalanan ini secara ringkas dan praktis:
 
@@ -128,7 +128,7 @@ Berikan jawaban dalam Bahasa Indonesia yang membantu, akurat, dan fokus pada sar
     }
   }
 
-  static async generateActivitySuggestions(destination, day, existingActivities = []) {
+  async generateActivitySuggestions(destination, day, existingActivities = []) {
     try {
       const prompt = `Sarankan 5 aktivitas menarik untuk hari ke-${day} di ${destination}.
 
@@ -172,7 +172,7 @@ PENTING:
     }
   }
 
-  static async analyzeTripBudget(activities, totalBudget) {
+  async analyzeTripBudget(activities, totalBudget) {
     try {
       const totalCost = activities.reduce((sum, act) => sum + (act.cost || 0), 0);
 
@@ -211,4 +211,4 @@ Jaga agar respons tetap ringkas dan dapat ditindaklanjuti.`;
   }
 }
 
-module.exports = GeminiService
+module.exports = new GeminiService()

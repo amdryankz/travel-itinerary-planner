@@ -61,7 +61,7 @@ class TripController {
         ]
       });
 
-      if (!product) throw { name: "NotFound", id }
+      if (!trip) throw { name: "NotFound", id }
 
       return res.status(200).json({
         message: "Trips retrieved successfully",
@@ -146,7 +146,6 @@ class TripController {
 
       return res.status(200).json({
         message: "Trip deleted successfully",
-        data: null
       });
     } catch (err) {
       next(err)
@@ -189,4 +188,4 @@ class TripController {
   }
 }
 
-module.exports = new TripController();
+module.exports = TripController

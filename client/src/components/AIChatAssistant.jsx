@@ -67,7 +67,7 @@ const AIChatAssistant = ({ destination }) => {
       console.error("AI chat failed:", error);
       const errorMessage = {
         role: "assistant",
-        content: "Sorry, I encountered an error. Please try again.",
+        content: "Waduh, maaf, ada error nih. Coba lagi ya.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -77,24 +77,24 @@ const AIChatAssistant = ({ destination }) => {
   };
 
   const handleClearChat = () => {
-    if (window.confirm("Clear all messages?")) {
+    if (window.confirm("Yakin mau hapus semua chat?")) {
       setMessages([]);
     }
   };
 
   const quickQuestions = [
-    "What's the best time to visit?",
-    "Local food recommendations?",
-    "Safety tips?",
-    "Transportation options?",
-    "Must-see attractions?",
+    "Waktu terbaik buat ke sana kapan?",
+    "Rekomendasi makanan lokal dong?",
+    "Tips keamanan?",
+    "Pilihan transportasi?",
+    "Tempat yang wajib diliat?",
   ];
 
   return (
     <>
       <Button variant="outline" onClick={() => setShowModal(true)}>
         <MessageCircle size={16} className="mr-2" />
-        Ask AI
+        Tanya AI
       </Button>
 
       <Modal
@@ -104,13 +104,13 @@ const AIChatAssistant = ({ destination }) => {
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2">
               <MessageCircle size={20} />
-              <span>AI Travel Assistant</span>
+              <span>Asisten Travel AI</span>
             </div>
             {messages.length > 0 && (
               <button
                 onClick={handleClearChat}
                 className="text-red-600 hover:text-red-700 p-1"
-                title="Clear chat"
+                title="Bersihin chat"
               >
                 <Trash2 size={16} />
               </button>
@@ -126,9 +126,9 @@ const AIChatAssistant = ({ destination }) => {
               <div className="text-center text-gray-500 py-8">
                 <MessageCircle className="mx-auto mb-3" size={48} />
                 <h3 className="font-semibold text-gray-900 mb-2">
-                  Ask me anything about {destination}!
+                  Tanya apa aja soal {destination}!
                 </h3>
-                <p className="text-sm mb-4">Quick questions to get started:</p>
+                <p className="text-sm mb-4">Contoh pertanyaan cepat:</p>{" "}
                 <div className="flex flex-wrap gap-2 justify-center max-w-md mx-auto">
                   {quickQuestions.map((q, i) => (
                     <button
@@ -200,7 +200,7 @@ const AIChatAssistant = ({ destination }) => {
                           ></div>
                         </div>
                         <span className="text-sm text-gray-600">
-                          Thinking...
+                          Lagi mikir...
                         </span>
                       </div>
                     </div>
@@ -221,7 +221,7 @@ const AIChatAssistant = ({ destination }) => {
                 onKeyPress={(e) =>
                   e.key === "Enter" && !e.shiftKey && handleSend()
                 }
-                placeholder="Ask anything about your trip..."
+                placeholder="Tanya apa aja soal trip kamu..."
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 disabled={loading}
               />

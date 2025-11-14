@@ -93,7 +93,7 @@ class TripController {
         message: "Trip created successfully",
         data: trip
       })
-    } catch (error) {
+    } catch (err) {
       next(err)
     }
   }

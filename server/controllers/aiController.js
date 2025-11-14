@@ -136,8 +136,15 @@ class AIController {
 
       if (!trip) throw { name: "NotFound", id: tripId }
 
+      // Get expenses for the trip
+      const { Expense } = require('../models');
+      const expenses = await Expense.findAll({
+        where: { tripId }
+      });
+
       const analysis = await geminiService.analyzeTripBudget(
         trip.activities,
+        expenses,
         trip.budget || 0
       );
 

@@ -172,24 +172,42 @@ PENTING:
     }
   }
 
-  async analyzeTripBudget(activities, totalBudget) {
+  async analyzeTripBudget(activities, expenses, totalBudget) {
     try {
-      const totalCost = activities.reduce((sum, act) => sum + (act.cost || 0), 0);
+      // Calculate total spent from actual expenses, not activity estimates
+      const totalCost = expenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
+
+      // Group expenses by category for detailed breakdown
+      const expensesByCategory = expenses.reduce((acc, expense) => {
+        const category = expense.category || 'other';
+        if (!acc[category]) {
+          acc[category] = 0;
+        }
+        acc[category] += expense.amount || 0;
+        return acc;
+      }, {});
 
       const prompt = `Analisis anggaran perjalanan ini:
 
 Total Budget: Rp ${totalBudget}
-Total Terpakai: Rp ${totalCost}
+Total Terpakai (dari Expenses Aktual): Rp ${totalCost}
 Sisa: Rp ${totalBudget - totalCost}
 
-Aktivitas:
+Rincian Pengeluaran per Kategori:
+${JSON.stringify(expensesByCategory, null, 2)}
+
+Detail Expenses:
+${JSON.stringify(expenses, null, 2)}
+
+Detail Aktivitas (untuk konteks):
 ${JSON.stringify(activities, null, 2)}
 
 Berikan analisis dalam Bahasa Indonesia:
 1. Analisis anggaran (apakah lebih atau kurang dari budget)
-2. Rincian pengeluaran per kategori (jika memungkinkan)
-3. Saran penghematan biaya
+2. Rincian pengeluaran per kategori yang sudah terjadi
+3. Saran penghematan biaya untuk sisa perjalanan atau trip berikutnya
 4. Area di mana pengeluaran bisa dioptimalkan
+5. Bandingkan dengan estimasi biaya dari aktivitas jika relevan
 
 Jaga agar respons tetap ringkas dan dapat ditindaklanjuti.`;
 
@@ -202,7 +220,8 @@ Jaga agar respons tetap ringkas dan dapat ditindaklanjuti.`;
         totalBudget,
         totalSpent: totalCost,
         remaining: totalBudget - totalCost,
-        status: totalCost > totalBudget ? 'over_budget' : 'within_budget'
+        status: totalCost > totalBudget ? 'over_budget' : 'within_budget',
+        expensesByCategory
       };
     } catch (error) {
       console.error('Gemini Budget Analysis Error:', error);

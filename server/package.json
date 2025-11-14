@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest --coverage --detectOpenHandles --forceExit",
     "test:watch": "NODE_ENV=test jest --watch",
-    "dev": "node --watch app"
+    "dev": "node --watch bin/www"
   },
   "jest": {
     "testEnvironment": "node",

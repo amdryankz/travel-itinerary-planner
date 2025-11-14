@@ -66,6 +66,8 @@ class AuthController {
       })
 
       const gPayload = ticket.getPayload()
+      console.log(gPayload);
+
 
       const [user, created] = await User.findOrCreate({
         where: {
@@ -73,7 +75,9 @@ class AuthController {
         },
         defaults: {
           email: gPayload.email,
-          password: "google_password"
+          name: gPayload.name,
+          password: "google_password",
+          avatar: gPayload.picture
         }
       })
 

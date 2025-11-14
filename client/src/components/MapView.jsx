@@ -1,146 +1,205 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import { MapPin } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { MapPin, Info } from "lucide-react";
+import LeafletMap from "./LeafletMap";
 
-// Fix default marker icon issue in Leaflet
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
+export default function MapView({ trip, activities = [] }) {
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [mapCenter, setMapCenter] = useState({ lat: -6.2088, lng: 106.8456 }); // Jakarta default
+  const mapRef = useRef(null);
 
-// Custom marker icons by category
-const createCustomIcon = (category) => {
-  const colors = {
-    sightseeing: "#3B82F6",
-    food: "#F59E0B",
-    transport: "#6B7280",
-    hotel: "#8B5CF6",
-    activity: "#10B981",
-    shopping: "#EC4899",
-    other: "#64748B",
+  useEffect(() => {
+    // Set map center based on first activity with coordinates or default
+    if (activities.length > 0) {
+      const firstActivityWithCoords = activities.find(
+        (activity) =>
+          activity.location &&
+          typeof activity.location === "object" &&
+          activity.location.lat &&
+          activity.location.lng
+      );
+
+      if (firstActivityWithCoords) {
+        setMapCenter({
+          lat: firstActivityWithCoords.location.lat,
+          lng: firstActivityWithCoords.location.lng,
+        });
+      }
+    }
+  }, [activities]);
+
+  const getCategoryColor = (category) => {
+    const colors = {
+      sightseeing: "#3B82F6",
+      food: "#F97316",
+      transport: "#8B5CF6",
+      hotel: "#10B981",
+      activity: "#EC4899",
+      shopping: "#EAB308",
+      other: "#6B7280",
+    };
+    return colors[category] || colors.other;
   };
 
-  return L.divIcon({
-    className: "custom-marker",
-    html: `<div style="background-color: ${
-      colors[category] || colors.other
-    }; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  });
-};
+  const groupActivitiesByDay = () => {
+    return activities.reduce((acc, activity) => {
+      if (!acc[activity.day]) {
+        acc[activity.day] = [];
+      }
+      acc[activity.day].push(activity);
+      return acc;
+    }, {});
+  };
 
-const MapView = ({ activities, center, zoom = 13 }) => {
-  if (!activities || activities.length === 0) {
-    return (
-      <div className="h-96 bg-gray-100 rounded-lg flex items-center justify-center">
-        <div className="text-center text-gray-600">
-          <MapPin size={48} className="mx-auto mb-2" />
-          <p>No locations to display</p>
-        </div>
-      </div>
-    );
-  }
+  const handleActivityClick = useCallback((activity) => {
+    setSelectedActivity(activity);
+    if (mapRef.current) {
+      mapRef.current.openPopupForActivity(activity.id);
+    }
+  }, []);
 
-  // Filter activities with valid locations
-  const activitiesWithLocation = activities.filter(
-    (activity) =>
-      activity.location && activity.location.lat && activity.location.lng
-  );
-
-  if (activitiesWithLocation.length === 0) {
-    return (
-      <div className="h-96 bg-gray-100 rounded-lg flex items-center justify-center">
-        <div className="text-center text-gray-600">
-          <MapPin size={48} className="mx-auto mb-2" />
-          <p>No locations available for map display</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Calculate center if not provided
-  const mapCenter = center || [
-    activitiesWithLocation[0].location.lat,
-    activitiesWithLocation[0].location.lng,
-  ];
-
-  // Create polyline coordinates (route)
-  const routeCoordinates = activitiesWithLocation.map((activity) => [
-    activity.location.lat,
-    activity.location.lng,
-  ]);
+  const activitiesByDay = groupActivitiesByDay();
 
   return (
-    <div className="h-96 rounded-lg overflow-hidden shadow-lg">
-      <MapContainer
-        center={mapCenter}
-        zoom={zoom}
-        style={{ height: "100%", width: "100%" }}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    <div className="space-y-6">
+      {/* Map Container */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        {/* Map Header */}
+        <div className="bg-linear-to-r bg-primary-600  px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <MapPin className="h-6 w-6 text-white" />
+            <div>
+              <h3 className="text-xl font-bold text-white">Peta Perjalanan</h3>
+              <p className="text-primary-100 text-sm">
+                {trip?.destination || "Destinasi"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Leaflet Map */}
+        <LeafletMap
+          ref={mapRef}
+          center={mapCenter}
+          zoom={13}
+          activities={activities}
+          onMarkerClick={handleActivityClick}
         />
 
-        {/* Route line */}
-        {routeCoordinates.length > 1 && (
-          <Polyline
-            positions={routeCoordinates}
-            color="#3B82F6"
-            weight={3}
-            opacity={0.7}
-            dashArray="10, 10"
-          />
-        )}
-
-        {/* Markers */}
-        {activitiesWithLocation.map((activity, index) => (
-          <Marker
-            key={activity.id}
-            position={[activity.location.lat, activity.location.lng]}
-            icon={createCustomIcon(activity.category)}
-          >
-            <Popup>
-              <div className="p-2">
-                <h3 className="font-bold text-lg mb-1">{activity.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {activity.description}
-                </p>
-                <div className="text-xs text-gray-500">
-                  <p>📍 {activity.location.address}</p>
-                  {activity.startTime && (
-                    <p>
-                      🕐 {activity.startTime} - {activity.endTime}
-                    </p>
-                  )}
-                  {activity.cost && <p>💰 ${activity.cost}</p>}
-                  <p className="mt-1">
-                    <span className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded text-xs">
-                      Day {activity.day} - #{index + 1}
-                    </span>
-                  </p>
-                </div>
+        {/* Map Legend */}
+        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <Info size={16} className="text-gray-500" />
+                <span className="font-medium text-gray-700">Legenda:</span>
               </div>
-            </Popup>
-          </Marker>
+              {Object.entries({
+                sightseeing: "Wisata",
+                food: "Kuliner",
+                transport: "Transport",
+                hotel: "Hotel",
+                activity: "Aktivitas",
+                shopping: "Belanja",
+                other: "Lainnya",
+              }).map(([key, label]) => (
+                <div key={key} className="flex items-center space-x-1">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: getCategoryColor(key) }}
+                  ></div>
+                  <span className="text-gray-600">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Activities List by Day */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-4">
+          Lokasi Aktivitas per Hari
+        </h3>
+
+        {Object.entries(activitiesByDay).map(([day, dayActivities]) => (
+          <div key={day} className="mb-6 last:mb-0">
+            <h4 className="text-lg font-semibold text-gray-900 mb-3">
+              Hari {day}
+            </h4>
+            <div className="space-y-3">
+              {dayActivities.map((activity, index) => (
+                <div
+                  key={activity.id}
+                  className={`flex items-start space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer ${
+                    selectedActivity?.id === activity.id
+                      ? "border-primary-500 bg-primary-50"
+                      : "border-gray-200 hover:border-gray-300 bg-white"
+                  }`}
+                  onClick={() => handleActivityClick(activity)}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
+                    style={{
+                      backgroundColor: getCategoryColor(activity.category),
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h5 className="font-semibold text-gray-900 truncate">
+                        {activity.title}
+                      </h5>
+                      <span
+                        className="px-2 py-0.5 rounded text-xs font-medium"
+                        style={{
+                          backgroundColor: `${getCategoryColor(
+                            activity.category
+                          )}20`,
+                          color: getCategoryColor(activity.category),
+                        }}
+                      >
+                        {activity.category}
+                      </span>
+                    </div>
+                    {typeof activity.location === "string" &&
+                    activity.location ? (
+                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                        <MapPin size={14} />
+                        <span className="truncate">{activity.location}</span>
+                      </div>
+                    ) : activity.location?.lat && activity.location?.lng ? (
+                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                        <MapPin size={14} />
+                        <span>
+                          {activity.location.lat.toFixed(6)},{" "}
+                          {activity.location.lng.toFixed(6)}
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-400 italic">
+                        Lokasi tidak tersedia
+                      </p>
+                    )}
+                    {activity.startTime && activity.endTime && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {activity.startTime} - {activity.endTime}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
-      </MapContainer>
+
+        {activities.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <MapPin className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+            <p>Belum ada aktivitas untuk ditampilkan di peta</p>
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
-export default MapView;
+}

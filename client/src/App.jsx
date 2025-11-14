@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import BaseLayout from "./layouts/BaseLayout";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Dashboard from "./pages/DashboardPage";
+import CreateTripPage from "./pages/CreateTripPage";
+import AIGenerateTripPage from "./pages/AIGenerateTripPage";
+import ManualCreateTripPage from "./pages/ManualCreateTripPage";
+import TripDetailPage from "./pages/TripDetailPage";
+import EditTripPage from "./pages/EditTripPage";
+import ActivityForm from "./pages/ActivityFormPage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route element={<BaseLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/create-trip" element={<CreateTripPage />} />
+              <Route path="/create-trip/ai" element={<AIGenerateTripPage />} />
+              <Route
+                path="/create-trip/manual"
+                element={<ManualCreateTripPage />}
+              />
+              <Route path="/:id" element={<TripDetailPage />} />
+              <Route path="/trips/:id/edit" element={<EditTripPage />} />
+              <Route
+                path="/trips/:tripId/activities/new"
+                element={<ActivityForm />}
+              />
+              <Route
+                path="/trips/:tripId/activities/:activityId/edit"
+                element={<ActivityForm />}
+              />
+            </Route>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

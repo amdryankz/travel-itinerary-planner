@@ -1,7 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Navbar from "../components/common/layout/Navbar";
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import toast from "react-hot-toast";
 
 export default function BaseLayout() {
+  if (!localStorage.token) {
+    toast.error("Silahkan login terlebih dahulu!");
+    return <Navigate to="/login" />;
+  }
+
   return (
     <>
       <div className="min-h-screen bg-gray-50">

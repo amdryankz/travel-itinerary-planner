@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth?.user?.data);
-  console.log(user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ const Navbar = () => {
                   to="/create-trip"
                   className="text-gray-700 hover:text-primary-600 transition-colors"
                 >
-                  Create Trip
+                  Bikin Trip
                 </Link>
 
                 {/* User Menu */}

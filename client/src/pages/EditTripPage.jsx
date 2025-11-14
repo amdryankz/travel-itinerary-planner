@@ -92,7 +92,7 @@ export default function EditTripPage() {
         }
       )
       .then(({ data }) => {
-        navigate(`/trip/${id}`);
+        navigate(`/${id}`);
         return data;
       });
 
@@ -330,7 +330,7 @@ export default function EditTripPage() {
           <div className="flex items-center space-x-4 pt-4">
             <button
               type="button"
-              onClick={() => navigate(`/trip/${id}`)}
+              onClick={() => navigate(`/${id}`)}
               className="btn-secondary flex-1"
               disabled={loading}
             >

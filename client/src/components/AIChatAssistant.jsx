@@ -16,6 +16,11 @@ const AIChatAssistant = ({ destination }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const cleanMarkdown = (text) => {
+    if (!text) return "";
+    return text.replace(/\*\*/g, "").replace(/\*/g, "");
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -53,7 +58,7 @@ const AIChatAssistant = ({ destination }) => {
 
       const aiMessage = {
         role: "assistant",
-        content: response.data.suggestion,
+        content: response.data.data,
         timestamp: new Date(),
       };
 
@@ -154,11 +159,11 @@ const AIChatAssistant = ({ destination }) => {
                     >
                       {msg.role === "user" ? (
                         <p className="text-sm whitespace-pre-wrap">
-                          {msg.content}
+                          {cleanMarkdown(msg.content)}
                         </p>
                       ) : (
                         <div className="text-sm [&_strong]:font-semibold [&_strong]:text-gray-900">
-                          {msg.content}
+                          {cleanMarkdown(msg.content)}
                         </div>
                       )}
                       <p
@@ -224,9 +229,6 @@ const AIChatAssistant = ({ destination }) => {
                 <Send size={20} />
               </Button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Press Enter to send, Shift+Enter for new line
-            </p>
           </div>
         </div>
       </Modal>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Button from "./Button";
 import { Sparkles } from "lucide-react";
-import toast from "react-hot-toast";
 
 const QuickActions = ({ onOptimizeRoute }) => {
   const [optimizing, setOptimizing] = useState(false);
@@ -12,7 +11,6 @@ const QuickActions = ({ onOptimizeRoute }) => {
       await onOptimizeRoute();
     } catch (error) {
       console.error("Optimization failed:", error);
-      toast.error("Optimization failed");
     } finally {
       setOptimizing(false);
     }

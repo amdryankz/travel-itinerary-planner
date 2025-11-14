@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import Modal from "./Modal";
@@ -12,16 +12,36 @@ const ExpenseForm = ({
   activities = [],
 }) => {
   const [formData, setFormData] = useState({
-    amount: initialData?.amount || "",
-    category: initialData?.category || "other",
-    description: initialData?.description || "",
-    date: initialData?.date
-      ? initialData.date.split("T")[0]
-      : new Date().toISOString().split("T")[0],
-    activityId: initialData?.activityId || "",
+    amount: "",
+    category: "other",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
+    activityId: "",
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        amount: initialData.amount || "",
+        category: initialData.category || "other",
+        description: initialData.description || "",
+        date: initialData.date
+          ? initialData.date.split("T")[0]
+          : new Date().toISOString().split("T")[0],
+        activityId: initialData.activityId || "",
+      });
+    } else {
+      setFormData({
+        amount: "",
+        category: "other",
+        description: "",
+        date: new Date().toISOString().split("T")[0],
+        activityId: "",
+      });
+    }
+  }, [initialData]);
 
   const categories = [
     { value: "accommodation", label: "🏨 Accommodation" },

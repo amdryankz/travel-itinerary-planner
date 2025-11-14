@@ -11,13 +11,18 @@ const BudgetAnalysis = ({ tripId }) => {
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
 
+  const cleanMarkdown = (text) => {
+    if (!text) return "";
+    return text.replace(/\*\*/g, "").replace(/\*/g, "");
+  };
+
   const handleAnalyze = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${url}/ai/analyze-budget/${tripId}`, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       });
-      setAnalysis(response.data);
+      setAnalysis(response.data.data);
       setShowModal(true);
     } catch (error) {
       console.error("Budget analysis failed:", error);
@@ -65,8 +70,8 @@ const BudgetAnalysis = ({ tripId }) => {
                       : "Within Budget"}
                   </p>
                   <p className="text-sm text-gray-600">
-                    ${analysis.totalSpent.toLocaleString()} / $
-                    {analysis.totalBudget.toLocaleString()}
+                    Rp {(analysis.totalSpent || 0).toLocaleString()} / Rp{" "}
+                    {(analysis.totalBudget || 0).toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -75,7 +80,9 @@ const BudgetAnalysis = ({ tripId }) => {
             {/* AI Analysis */}
             <Card>
               <h3 className="font-semibold text-gray-900 mb-2">AI Insights</h3>
-              <div className="text-gray-700">{analysis.analysis}</div>
+              <div className="text-gray-700 whitespace-pre-wrap">
+                {cleanMarkdown(analysis.analysis) || "No analysis available"}
+              </div>
             </Card>
           </div>
         )}

@@ -10,6 +10,7 @@ import AIGenerateTripPage from "./pages/AIGenerateTripPage";
 import ManualCreateTripPage from "./pages/ManualCreateTripPage";
 import TripDetailPage from "./pages/TripDetailPage";
 import EditTripPage from "./pages/EditTripPage";
+import ActivityForm from "./pages/ActivityFormPage";
 
 function App() {
   return (
@@ -26,8 +27,16 @@ function App() {
                 path="/create-trip/manual"
                 element={<ManualCreateTripPage />}
               />
-              <Route path="/trips/:id/edit" element={<EditTripPage />} />
               <Route path="/:id" element={<TripDetailPage />} />
+              <Route path="/trips/:id/edit" element={<EditTripPage />} />
+              <Route
+                path="/trips/:tripId/activities/new"
+                element={<ActivityForm />}
+              />
+              <Route
+                path="/trips/:tripId/activities/:activityId/edit"
+                element={<ActivityForm />}
+              />
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

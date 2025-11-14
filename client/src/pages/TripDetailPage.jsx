@@ -128,11 +128,11 @@ const TripDetails = () => {
         loading: "Loading...",
         success: "Berhasil mengupdate expense",
         error: (err) => {
-          return err.response.data.message[0];
+          return err.response.data.message;
         },
       });
     } else {
-      const createPromise = axios.post(`${url}/expenses`, data, {
+      const createPromise = axios.post(`${url}/expenses/trip/${id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
         },
@@ -142,12 +142,13 @@ const TripDetails = () => {
         loading: "Loading...",
         success: "Berhasil membuat expense",
         error: (err) => {
-          return err.response.data.message[0];
+          return err.response.data.message;
         },
       });
     }
     setShowExpenseForm(false);
     setEditingExpense(null);
+    fetchTripData();
   };
 
   const handleEditExpense = (expense) => {
@@ -170,6 +171,9 @@ const TripDetails = () => {
           return err.response.data.message[0];
         },
       });
+
+      // Refresh data setelah delete expense
+      fetchTripData();
     }
   };
 
@@ -184,13 +188,17 @@ const TripDetails = () => {
   };
 
   const handleOptimizeRoute = async () => {
-    const data = axios.post(`${url}/ai/optimize-route/${id}`);
+    const data = axios.post(
+      `${url}/ai/optimize-route/${id}`,
+      {},
+      { headers: { Authorization: `Bearer ${localStorage.token}` } }
+    );
 
     await toast.promise(data, {
       loading: "Loading...",
       success: "Berhasil optimize routes",
       error: (err) => {
-        return err.response.data.message[0];
+        return err.response.data.message;
       },
     });
   };
@@ -224,6 +232,7 @@ const TripDetails = () => {
           return err.response.data.message[0];
         },
       });
+      fetchTripData();
     }
   };
 
@@ -252,7 +261,7 @@ const TripDetails = () => {
               {trip.budget && (
                 <div className="flex items-center gap-2">
                   <DollarSign size={20} />
-                  <span>Budget: ${trip.budget.toLocaleString()}</span>
+                  <span>Budget: Rp {trip.budget.toLocaleString()}</span>
                 </div>
               )}
             </div>
@@ -400,8 +409,8 @@ const TripDetails = () => {
 
                                     {activity.cost && (
                                       <div className="flex items-center gap-1">
-                                        <DollarSign size={16} />
-                                        <span>${activity.cost}</span>
+                                        <p size={16} />
+                                        <span>Rp {activity.cost}</span>
                                       </div>
                                     )}
                                   </div>

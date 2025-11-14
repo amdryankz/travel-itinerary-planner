@@ -8,6 +8,7 @@ import { Save, X } from "lucide-react";
 import LocationPicker from "../components/LocationPicker";
 import url from "../constants/url";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const ActivityForm = () => {
   const { tripId, activityId } = useParams();
@@ -43,7 +44,7 @@ const ActivityForm = () => {
           Authorization: `Bearer ${localStorage.token}`,
         },
       });
-      const activity = response.data;
+      const activity = response.data.data;
 
       setFormData({
         day: activity.day,
@@ -124,15 +125,19 @@ const ActivityForm = () => {
             Authorization: `Bearer ${localStorage.token}`,
           },
         });
+
+        toast.success("Berhasil update activity");
       } else {
         await axios.post(`${url}/activities/trip/${tripId}`, submitData, {
           headers: {
             Authorization: `Bearer ${localStorage.token}`,
           },
         });
+
+        toast.success("Berhasil nambah activity");
       }
 
-      navigate(`/trips/${tripId}`);
+      navigate(`/${tripId}`);
     } catch (error) {
       console.error("Failed to save activity:", error);
     } finally {
@@ -297,7 +302,7 @@ const ActivityForm = () => {
             <Button
               type="button"
               variant="secondary"
-              onClick={() => navigate(`/trips/${tripId}`)}
+              onClick={() => navigate(`/${tripId}`)}
               disabled={loading}
             >
               <X size={20} className="inline mr-2" />

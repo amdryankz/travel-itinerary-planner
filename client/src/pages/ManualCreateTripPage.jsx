@@ -51,7 +51,7 @@ export default function ManualCreateTripPage() {
         }
       )
       .then(({ data }) => {
-        navigate(`/trip/${data.data.id}`);
+        navigate(`/${data.data.id}`);
         return data;
       });
 

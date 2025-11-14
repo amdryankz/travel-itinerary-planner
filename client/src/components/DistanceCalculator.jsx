@@ -35,17 +35,18 @@ const DistanceCalculator = ({ activities }) => {
             .then((result) => ({
               from: origin.title,
               to: destination.title,
-              ...result.data,
+              ...result.data.data,
             }))
         );
       }
 
       const results = await Promise.all(distancePromises);
+
       setDistances(results);
       setShowModal(true);
     } catch (error) {
       console.error("Distance calculation failed:", error);
-      alert("Failed to calculate distances");
+      alert("Failed to calculate distances. Please try again.");
     } finally {
       setCalculating(false);
     }
@@ -87,10 +88,12 @@ const DistanceCalculator = ({ activities }) => {
               </div>
               <div className="flex gap-4 text-sm text-gray-600">
                 <div>
-                  <span className="font-medium">Distance:</span> {dist.distance}
+                  <span className="font-medium">Distance:</span>{" "}
+                  {dist.distance || "N/A"}
                 </div>
                 <div>
-                  <span className="font-medium">Duration:</span> {dist.duration}
+                  <span className="font-medium">Duration:</span>{" "}
+                  {dist.duration || "N/A"}
                 </div>
               </div>
             </div>
@@ -112,6 +115,9 @@ const DistanceCalculator = ({ activities }) => {
                 <span className="font-semibold text-primary-600">
                   {distances
                     .reduce((sum, d) => {
+                      if (!d.distance || typeof d.distance !== "string") {
+                        return sum;
+                      }
                       const km = parseFloat(d.distance.replace(/[^\d.]/g, ""));
                       return sum + (isNaN(km) ? 0 : km);
                     }, 0)

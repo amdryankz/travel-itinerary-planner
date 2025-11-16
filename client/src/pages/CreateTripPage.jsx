@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, PenTool, ArrowRight, ArrowLeft } from "lucide-react";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function CreateTripPage() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [selectedMethod, setSelectedMethod] = useState(null);
 
   const handleMethodSelect = (method) => {
@@ -27,11 +31,9 @@ export default function CreateTripPage() {
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Buat Trip Baru
+          {t("createTrip.title")}
         </h1>
-        <p className="text-lg text-gray-600">
-          Pilih cara membuat trip yang sesuai dengan kebutuhanmu
-        </p>
+        <p className="text-lg text-gray-600">{t("createTrip.subtitle")}</p>
       </div>
 
       {/* Method Selection Cards */}
@@ -52,40 +54,43 @@ export default function CreateTripPage() {
           </div>
 
           <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-            Generate dengan AI
+            {t("createTrip.aiGenerate")}
           </h3>
 
           <p className="text-gray-600 text-center mb-6">
-            Biarkan AI membuat itinerary lengkap untukmu berdasarkan
-            preferensimu
+            {t("createTrip.aiGenerateDesc")}
           </p>
 
           <ul className="space-y-3 mb-6">
             <li className="flex items-start space-x-2">
               <span className="text-primary-600 mt-1">✓</span>
               <span className="text-gray-700">
-                Rekomendasi destinasi otomatis
+                {t("createTrip.autoDestination")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-primary-600 mt-1">✓</span>
               <span className="text-gray-700">
-                Aktivitas yang dipersonalisasi
+                {t("createTrip.personalizedActivities")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">Optimasi rute perjalanan</span>
+              <span className="text-gray-700">
+                {t("createTrip.routeOptimization")}
+              </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">Estimasi budget otomatis</span>
+              <span className="text-gray-700">
+                {t("createTrip.autoBudget")}
+              </span>
             </li>
           </ul>
 
           <div className="text-center">
             <span className="inline-flex items-center px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-sm font-medium">
-              🚀 Cepat & Mudah
+              🚀 {t("createTrip.quickEasy")}
             </span>
           </div>
         </div>
@@ -106,35 +111,43 @@ export default function CreateTripPage() {
           </div>
 
           <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-            Buat Manual
+            {t("createTrip.manualCreate")}
           </h3>
 
           <p className="text-gray-600 text-center mb-6">
-            Atur sendiri setiap detail perjalananmu sesuai keinginan
+            {t("createTrip.manualCreateDesc")}
           </p>
 
           <ul className="space-y-3 mb-6">
             <li className="flex items-start space-x-2">
               <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">Kontrol penuh atas trip</span>
+              <span className="text-gray-700">
+                {t("createTrip.fullControl")}
+              </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">Pilih aktivitas sesukamu</span>
+              <span className="text-gray-700">
+                {t("createTrip.chooseActivities")}
+              </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">Atur jadwal sendiri</span>
+              <span className="text-gray-700">
+                {t("createTrip.customSchedule")}
+              </span>
             </li>
             <li className="flex items-start space-x-2">
               <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">Kelola budget secara detail</span>
+              <span className="text-gray-700">
+                {t("createTrip.detailBudget")}
+              </span>
             </li>
           </ul>
 
           <div className="text-center">
             <span className="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium">
-              ✏️ Fleksibel & Custom
+              ✏️ {t("createTrip.flexibleCustom")}
             </span>
           </div>
         </div>
@@ -147,14 +160,14 @@ export default function CreateTripPage() {
           className="btn-secondary flex items-center space-x-2 px-8 py-3 text-lg "
         >
           <ArrowLeft size={20} />
-          <span>Kembali</span>
+          <span>{t("common.back")}</span>
         </button>
         <button
           onClick={handleContinue}
           disabled={!selectedMethod}
           className="btn-primary flex items-center space-x-2 px-8 py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>Lanjutkan</span>
+          <span>{t("createTrip.continue")}</span>
           <ArrowRight size={20} />
         </button>
       </div>
@@ -164,8 +177,8 @@ export default function CreateTripPage() {
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
             {selectedMethod === "ai"
-              ? "Kamu akan diarahkan ke form AI generator untuk membuat trip otomatis"
-              : "Kamu akan diarahkan ke form manual untuk membuat trip sendiri"}
+              ? t("createTrip.aiGeneratorInfo")
+              : t("createTrip.manualInfo")}
           </p>
         </div>
       )}

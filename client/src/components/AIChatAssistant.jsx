@@ -4,6 +4,8 @@ import Modal from "./Modal";
 import { MessageCircle, Send, Trash2 } from "lucide-react";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const AIChatAssistant = ({ destination }) => {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +13,8 @@ const AIChatAssistant = ({ destination }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -67,7 +71,7 @@ const AIChatAssistant = ({ destination }) => {
       console.error("AI chat failed:", error);
       const errorMessage = {
         role: "assistant",
-        content: "Waduh, maaf, ada error nih. Coba lagi ya.",
+        content: t("components.aiChat.errorMessage"),
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -77,24 +81,24 @@ const AIChatAssistant = ({ destination }) => {
   };
 
   const handleClearChat = () => {
-    if (window.confirm("Yakin mau hapus semua chat?")) {
+    if (window.confirm(t("components.aiChat.confirmClear"))) {
       setMessages([]);
     }
   };
 
   const quickQuestions = [
-    "Waktu terbaik buat ke sana kapan?",
-    "Rekomendasi makanan lokal dong?",
-    "Tips keamanan?",
-    "Pilihan transportasi?",
-    "Tempat yang wajib diliat?",
+    t("components.aiChat.quickQ1"),
+    t("components.aiChat.quickQ2"),
+    t("components.aiChat.quickQ3"),
+    t("components.aiChat.quickQ4"),
+    t("components.aiChat.quickQ5"),
   ];
 
   return (
     <>
       <Button variant="outline" onClick={() => setShowModal(true)}>
         <MessageCircle size={16} className="mr-2" />
-        Tanya AI
+        {t("components.aiChat.button")}
       </Button>
 
       <Modal
@@ -104,13 +108,13 @@ const AIChatAssistant = ({ destination }) => {
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2">
               <MessageCircle size={20} />
-              <span>Asisten Travel AI</span>
+              <span>{t("components.aiChat.title")}</span>
             </div>
             {messages.length > 0 && (
               <button
                 onClick={handleClearChat}
                 className="text-red-600 hover:text-red-700 p-1"
-                title="Bersihin chat"
+                title={t("components.aiChat.clearChat")}
               >
                 <Trash2 size={16} />
               </button>
@@ -126,9 +130,11 @@ const AIChatAssistant = ({ destination }) => {
               <div className="text-center text-gray-500 py-8">
                 <MessageCircle className="mx-auto mb-3" size={48} />
                 <h3 className="font-semibold text-gray-900 mb-2">
-                  Tanya apa aja soal {destination}!
+                  {t("components.aiChat.askAbout")} {destination}!
                 </h3>
-                <p className="text-sm mb-4">Contoh pertanyaan cepat:</p>{" "}
+                <p className="text-sm mb-4">
+                  {t("components.aiChat.exampleQuestions")}
+                </p>{" "}
                 <div className="flex flex-wrap gap-2 justify-center max-w-md mx-auto">
                   {quickQuestions.map((q, i) => (
                     <button
@@ -200,7 +206,7 @@ const AIChatAssistant = ({ destination }) => {
                           ></div>
                         </div>
                         <span className="text-sm text-gray-600">
-                          Lagi mikir...
+                          {t("components.aiChat.thinking")}
                         </span>
                       </div>
                     </div>
@@ -221,7 +227,7 @@ const AIChatAssistant = ({ destination }) => {
                 onKeyPress={(e) =>
                   e.key === "Enter" && !e.shiftKey && handleSend()
                 }
-                placeholder="Tanya apa aja soal trip kamu..."
+                placeholder={t("components.aiChat.placeholder")}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 disabled={loading}
               />

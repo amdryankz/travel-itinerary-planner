@@ -5,8 +5,13 @@ import {
   AlertCircle,
 } from "lucide-react";
 import Card from "./Card";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const BudgetTracker = ({ stats }) => {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   if (!stats) return null;
 
   const percentageUsed = parseFloat(stats.percentageUsed) || 0;
@@ -24,51 +29,57 @@ const BudgetTracker = ({ stats }) => {
       <Card>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">
-            Budget Overview
+            {t("components.budgetTracker.title")}
           </h3>
           {isOverBudget && (
             <span className="flex items-center gap-1 text-red-600 text-sm">
               <AlertCircle size={16} />
-              Over Budget
+              {t("components.budgetTracker.overBudget")}
             </span>
           )}
         </div>
 
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Budget</span>
+            <span className="text-gray-600">
+              {t("components.budgetTracker.budget")}
+            </span>
             <span className="text-xl font-bold text-gray-900">
-              ${stats.budget.toLocaleString()}
+              Rp {stats.budget.toLocaleString()}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Spent</span>
+            <span className="text-gray-600">
+              {t("components.budgetTracker.spent")}
+            </span>
             <span
               className={`text-xl font-bold ${
                 isOverBudget ? "text-red-600" : "text-gray-900"
               }`}
             >
-              ${stats.total.toLocaleString()}
+              Rp {stats.total.toLocaleString()}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Remaining</span>
+            <span className="text-gray-600">
+              {t("components.budgetTracker.remaining")}
+            </span>
             <span
               className={`text-xl font-bold ${
                 isOverBudget ? "text-red-600" : "text-green-600"
               }`}
             >
-              ${Math.abs(stats.remaining).toLocaleString()}
-              {isOverBudget && " (deficit)"}
+              Rp {Math.abs(stats.remaining).toLocaleString()}
+              {isOverBudget && ` (${t("components.budgetTracker.deficit")})`}
             </span>
           </div>
 
           {/* Progress Bar */}
           <div className="pt-2">
             <div className="flex justify-between text-sm text-gray-600 mb-1">
-              <span>Budget Usage</span>
+              <span>{t("components.budgetTracker.budgetUsage")}</span>
               <span>{percentageUsed.toFixed(1)}%</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -82,9 +93,11 @@ const BudgetTracker = ({ stats }) => {
           {/* Average per day */}
           <div className="pt-2 border-t">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-sm">Average per day</span>
+              <span className="text-gray-600 text-sm">
+                {t("components.budgetTracker.averagePerDay")}
+              </span>
               <span className="font-semibold text-gray-900">
-                ${parseFloat(stats.averagePerDay || 0).toLocaleString()}
+                Rp {parseFloat(stats.averagePerDay || 0).toLocaleString()}
               </span>
             </div>
           </div>
@@ -94,7 +107,7 @@ const BudgetTracker = ({ stats }) => {
       {/* Category Breakdown */}
       <Card>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Spending by Category
+          {t("components.budgetTracker.spendingByCategory")}
         </h3>
 
         <div className="space-y-3">
@@ -115,10 +128,11 @@ const BudgetTracker = ({ stats }) => {
               <div key={category}>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm text-gray-600 capitalize">
-                    {categoryIcons[category]} {category}
+                    {categoryIcons[category]}{" "}
+                    {t(`components.expenseList.categories.${category}`)}
                   </span>
                   <span className="text-sm font-semibold text-gray-900">
-                    ${amount.toLocaleString()} ({percentage}%)
+                    Rp {amount.toLocaleString()} ({percentage}%)
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -133,7 +147,10 @@ const BudgetTracker = ({ stats }) => {
         </div>
 
         {Object.keys(stats.byCategory || {}).length === 0 && (
-          <p className="text-gray-500 text-center py-4">No expenses yet</p>
+          <p className="text-gray-500 text-center py-4">
+            {" "}
+            {t("components.budgetTracker.noExpenses")}
+          </p>
         )}
       </Card>
 
@@ -142,7 +159,9 @@ const BudgetTracker = ({ stats }) => {
         <Card className="text-center">
           <DollarSign className="mx-auto text-primary-600 mb-2" size={32} />
           <p className="text-2xl font-bold text-gray-900">{stats.count}</p>
-          <p className="text-sm text-gray-600">Total Expenses</p>
+          <p className="text-sm text-gray-600">
+            {t("components.budgetTracker.totalExpenses")}
+          </p>
         </Card>
 
         <Card className="text-center">
@@ -158,7 +177,9 @@ const BudgetTracker = ({ stats }) => {
           >
             {percentageUsed.toFixed(0)}%
           </p>
-          <p className="text-sm text-gray-600">Budget Used</p>
+          <p className="text-sm text-gray-600">
+            {t("components.budgetTracker.budgetUsed")}
+          </p>
         </Card>
       </div>
     </div>

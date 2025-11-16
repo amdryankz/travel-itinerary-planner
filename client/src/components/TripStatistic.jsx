@@ -1,12 +1,16 @@
 import Card from "./Card";
 import { Calendar, DollarSign, MapPin, Clock } from "lucide-react";
 import { differenceInDays } from "date-fns";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const TripStatistics = ({ trip, activities, expenses }) => {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   const duration =
     differenceInDays(new Date(trip.endDate), new Date(trip.startDate)) + 1;
-  const totalCost = expenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
-  const totalActivities = activities?.length || 0;
+  const totalSpent = expenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
   const totalDuration =
     activities?.reduce((sum, a) => sum + (a.duration || 0), 0) || 0;
   // const locationsWithCoords =
@@ -15,29 +19,29 @@ const TripStatistics = ({ trip, activities, expenses }) => {
   const stats = [
     {
       icon: Calendar,
-      label: "Duration",
-      value: `${duration} days`,
+      label: t("components.tripStats.duration"),
+      value: `${duration} ${t("components.tripStats.days")}`,
       color: "text-blue-600",
       bg: "bg-blue-50",
     },
     {
       icon: MapPin,
-      label: "Activities",
-      value: totalActivities,
+      label: t("components.tripStats.activities"),
+      value: activities.length,
       color: "text-green-600",
       bg: "bg-green-50",
     },
     {
       icon: DollarSign,
-      label: "Total Spent",
-      value: `$${totalCost.toLocaleString()}`,
+      label: t("components.tripStats.totalSpent"),
+      value: `Rp ${totalSpent.toLocaleString()}`,
       color: "text-purple-600",
       bg: "bg-purple-50",
     },
     {
       icon: Clock,
-      label: "Total Time",
-      value: `${Math.round(totalDuration / 60)}h`,
+      label: t("components.tripStats.totalTime"),
+      value: `${totalDuration / 60} ${t("components.tripStats.hours")}`,
       color: "text-orange-600",
       bg: "bg-orange-50",
     },

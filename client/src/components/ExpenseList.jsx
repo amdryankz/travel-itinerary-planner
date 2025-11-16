@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Trash2, Edit, Calendar, Tag } from "lucide-react";
 import Card from "./Card";
 import { format } from "date-fns";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const ExpenseList = ({ expenses, onEdit, onDelete }) => {
   const [filter, setFilter] = useState("all");
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const categoryIcons = {
     accommodation: "🏨",
@@ -35,10 +39,10 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
       <Card className="text-center py-12">
         <Tag className="mx-auto text-gray-400 mb-4" size={48} />
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          No expenses yet
+          {t("components.expenseList.noExpenses")}
         </h3>
         <p className="text-gray-600">
-          Start tracking your expenses by adding your first expense
+          {t("components.expenseList.startTracking")}
         </p>
       </Card>
     );
@@ -59,10 +63,10 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
             }`}
           >
             {cat === "all"
-              ? "All"
-              : `${categoryIcons[cat]} ${
-                  cat.charAt(0).toUpperCase() + cat.slice(1)
-                }`}
+              ? t("components.expenseList.all")
+              : `${categoryIcons[cat]} ${t(
+                  `components.expenseList.categories.${cat}`
+                )}`}
           </button>
         ))}
       </div>
@@ -89,11 +93,14 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
                         {format(new Date(expense.date), "MMM d, yyyy")}
                       </span>
                       <span className="px-2 py-0.5 bg-gray-100 rounded text-xs">
-                        {expense.category}
+                        {t(
+                          `components.expenseList.categories.${expense.category}`
+                        )}
                       </span>
                       {expense.activity && (
                         <span className="text-xs text-primary-600">
-                          Day {expense.activity.day}: {expense.activity.title}
+                          {t(`components.expenseList.day`)}{" "}
+                          {expense.activity.day}: {expense.activity.title}
                         </span>
                       )}
                     </div>
@@ -104,7 +111,7 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
               <div className="flex items-center gap-3">
                 <div className="text-right">
                   <p className="text-xl font-bold text-gray-900">
-                    ${expense.amount.toLocaleString()}
+                    Rp {expense.amount.toLocaleString()}
                   </p>
                 </div>
 

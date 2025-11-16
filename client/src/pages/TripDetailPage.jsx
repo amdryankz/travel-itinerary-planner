@@ -28,10 +28,14 @@ import DistanceCalculator from "../components/DistanceCalculator";
 import axios from "axios";
 import url from "../constants/url";
 import toast from "react-hot-toast";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const TripDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const [trip, setTrip] = useState(null);
   const [activities, setActivities] = useState([]);
@@ -102,8 +106,8 @@ const TripDetails = () => {
     });
 
     await toast.promise(data, {
-      loading: "Loading...",
-      success: "Berhasil menghapus trip",
+      loading: t("common.loading"),
+      success: t("tripDetail.tripSuccess"),
       error: (err) => {
         return err.response.data.message[0];
       },
@@ -125,8 +129,8 @@ const TripDetails = () => {
       );
 
       await toast.promise(editPromise, {
-        loading: "Loading...",
-        success: "Berhasil mengupdate expense",
+        loading: t("common.loading"),
+        success: t("tripDetail.expenseUpdateSuccess"),
         error: (err) => {
           return err.response.data.message;
         },
@@ -139,8 +143,8 @@ const TripDetails = () => {
       });
 
       await toast.promise(createPromise, {
-        loading: "Loading...",
-        success: "Berhasil membuat expense",
+        loading: t("common.loading"),
+        success: t("tripDetail.expenseCreateSuccess"),
         error: (err) => {
           return err.response.data.message;
         },
@@ -157,7 +161,7 @@ const TripDetails = () => {
   };
 
   const handleDeleteExpense = async (expenseId) => {
-    if (window.confirm("Are you sure you want to delete this expense?")) {
+    if (window.confirm(t("tripDetail.deleteExpenseConfirm"))) {
       const data = axios.delete(`${url}/expenses/${expenseId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
@@ -165,8 +169,8 @@ const TripDetails = () => {
       });
 
       await toast.promise(data, {
-        loading: "Loading...",
-        success: "Berhasil menghapus expense",
+        loading: t("common.loading"),
+        success: t("tripDetail.expenseSuccess"),
         error: (err) => {
           return err.response.data.message[0];
         },
@@ -195,8 +199,8 @@ const TripDetails = () => {
     );
 
     await toast.promise(data, {
-      loading: "Loading...",
-      success: "Berhasil optimize routes",
+      loading: t("common.loading"),
+      success: t("tripDetail.optimizeSuccess"),
       error: (err) => {
         return err.response.data.message;
       },
@@ -204,7 +208,10 @@ const TripDetails = () => {
   };
 
   if (loading) return <div></div>;
-  if (!trip) return <div>Trip not found</div>;
+  if (!trip)
+    return (
+      <div>{language === "id" ? "Trip tidak ditemukan" : "Trip not found"}</div>
+    );
 
   const duration =
     differenceInDays(new Date(trip.endDate), new Date(trip.startDate)) + 1;
@@ -212,13 +219,13 @@ const TripDetails = () => {
   // const totalCost = activities.reduce((sum, a) => sum + (a.cost || 0), 0);
 
   const tabs = [
-    { id: "itinerary", label: "Itinerary", icon: Calendar },
-    { id: "map", label: "Map", icon: MapIcon },
-    { id: "budget", label: "Budget", icon: Receipt },
+    { id: "itinerary", label: t("tripDetail.itinerary"), icon: Calendar },
+    { id: "map", label: t("tripDetail.map"), icon: MapIcon },
+    { id: "budget", label: t("tripDetail.budgetTab"), icon: Receipt },
   ];
 
   const handleDeleteActivity = async (activityId) => {
-    if (window.confirm("Are you sure you want to delete this activity?")) {
+    if (window.confirm(t("tripDetail.deleteActivityConfirm"))) {
       const data = axios.delete(`${url}/activities/${activityId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
@@ -226,8 +233,8 @@ const TripDetails = () => {
       });
 
       await toast.promise(data, {
-        loading: "Loading...",
-        success: "Berhasil menghapus activity",
+        loading: t("common.loading"),
+        success: t("tripDetail.activitySuccess"),
         error: (err) => {
           return err.response.data.message[0];
         },
@@ -255,13 +262,15 @@ const TripDetails = () => {
                 <span>
                   {format(new Date(trip.startDate), "MMM d")} -{" "}
                   {format(new Date(trip.endDate), "MMM d, yyyy")} ({duration}{" "}
-                  days)
+                  {t("tripDetail.days")})
                 </span>
               </div>
               {trip.budget && (
                 <div className="flex items-center gap-2">
                   <DollarSign size={20} />
-                  <span>Budget: Rp {trip.budget.toLocaleString()}</span>
+                  <span>
+                    {t("tripDetail.budget")}: Rp {trip.budget.toLocaleString()}
+                  </span>
                 </div>
               )}
             </div>
@@ -328,10 +337,12 @@ const TripDetails = () => {
         {activeTab === "itinerary" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Itinerary</h2>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {t("tripDetail.itinerary")}
+              </h2>
               <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
                 <Plus size={20} className="inline mr-2" />
-                Add Activity
+                {t("tripDetail.addActivity")}
               </Button>
             </div>
 
@@ -339,13 +350,13 @@ const TripDetails = () => {
               <Card className="text-center py-12">
                 <Calendar className="mx-auto text-gray-400 mb-4" size={48} />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No activities yet
+                  {t("tripDetail.noActivities")}
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  Start building your itinerary by adding activities
+                  {t("tripDetail.noActivitiesDesc")}
                 </p>
                 <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
-                  Add First Activity
+                  {t("tripDetail.addFirstActivity")}
                 </Button>
               </Card>
             ) : (
@@ -356,7 +367,7 @@ const TripDetails = () => {
                     <Card key={day}>
                       <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-bold text-gray-900">
-                          Day {day}
+                          {t("tripDetail.day")} {day}
                         </h3>
                       </div>
 
@@ -409,8 +420,10 @@ const TripDetails = () => {
 
                                     {activity.cost && (
                                       <div className="flex items-center gap-1">
-                                        <p size={16} />
-                                        <span>Rp {activity.cost}</span>
+                                        <DollarSign size={16} />
+                                        <span>
+                                          Rp {activity.cost.toLocaleString()}
+                                        </span>
                                       </div>
                                     )}
                                   </div>
@@ -481,11 +494,9 @@ const TripDetails = () => {
           <div>
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Map View
+                {t("tripDetail.mapView")}
               </h2>
-              <p className="text-gray-600">
-                View all your activities on the map
-              </p>
+              <p className="text-gray-600">{t("tripDetail.mapViewDesc")}</p>
             </div>
 
             <Card>
@@ -497,11 +508,10 @@ const TripDetails = () => {
               <Card className="mt-4 text-center py-8">
                 <MapIcon className="mx-auto text-gray-400 mb-2" size={48} />
                 <p className="text-gray-600 mb-4">
-                  No locations added yet. Add locations to your activities to
-                  see them on the map.
+                  {t("tripDetail.noLocations")}
                 </p>
                 <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
-                  Add Activity with Location
+                  {t("tripDetail.addActivityWithLocation")}
                 </Button>
               </Card>
             )}
@@ -513,7 +523,7 @@ const TripDetails = () => {
           <div>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                Budget & Expenses
+                {t("tripDetail.budgetExpenses")}
               </h2>
               <div className="flex gap-2">
                 <BudgetAnalysis tripId={id} />
@@ -524,7 +534,7 @@ const TripDetails = () => {
                   }}
                 >
                   <Plus size={20} className="inline mr-2" />
-                  Add Expense
+                  {t("tripDetail.addExpense")}
                 </Button>
               </div>
             </div>
@@ -552,22 +562,25 @@ const TripDetails = () => {
       <Modal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title="Delete Trip"
+        title={t("tripDetail.deleteTrip")}
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
-            Are you sure you want to delete this trip? This action cannot be
-            undone and will delete all activities and expenses.
-          </p>
+          <p className="text-gray-600">{t("tripDetail.deleteTripConfirm")}</p>
 
           <div className="bg-red-50 border border-red-200 rounded-lg p-3">
             <p className="text-sm text-red-800">
-              ⚠️ This will permanently delete:
+              ⚠️ {t("tripDetail.deleteTripWarning")}
             </p>
             <ul className="text-sm text-red-700 mt-2 ml-4 list-disc">
-              <li>{activities.length} activities</li>
-              <li>{expenses.length} expenses</li>
-              <li>All trip data</li>
+              <li>
+                {activities.length}{" "}
+                {language === "id" ? "aktivitas" : "activities"}
+              </li>
+              <li>
+                {expenses.length}{" "}
+                {language === "id" ? "pengeluaran" : "expenses"}
+              </li>
+              <li>{t("tripDetail.allTripData")}</li>
             </ul>
           </div>
 
@@ -578,14 +591,14 @@ const TripDetails = () => {
               loading={deleting}
               className="flex-1"
             >
-              Delete Trip
+              {t("tripDetail.deleteTripButton")}
             </Button>
             <Button
               variant="secondary"
               onClick={() => setShowDeleteModal(false)}
               disabled={deleting}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
           </div>
         </div>

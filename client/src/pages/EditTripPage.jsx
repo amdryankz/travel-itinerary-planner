@@ -11,12 +11,16 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function EditTripPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [formData, setFormData] = useState({
     title: "",
     destination: "",
@@ -98,11 +102,10 @@ export default function EditTripPage() {
 
     toast
       .promise(updateTripPromise, {
-        loading: "Memperbarui trip...",
-        success: "Trip berhasil diperbarui! ✅",
+        loading: t("editTrip.updatingToast"),
+        success: t("editTrip.successToast"),
         error: (err) =>
-          err.response?.data?.message?.[0] ||
-          "Gagal memperbarui trip. Silakan coba lagi.",
+          err.response?.data?.message?.[0] || t("editTrip.errorToast"),
       })
       .finally(() => setLoading(false));
   };
@@ -136,7 +139,7 @@ export default function EditTripPage() {
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
         >
           <ArrowLeft size={20} />
-          <span>Kembali ke Detail Trip</span>
+          <span>{t("editTrip.backButton")}</span>
         </button>
 
         <div className="text-center">
@@ -145,10 +148,10 @@ export default function EditTripPage() {
               <PenTool className="h-12 w-12 text-primary-600" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Edit Trip</h1>
-          <p className="text-gray-600">
-            Perbarui detail perjalananmu sesuai kebutuhan
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {t("editTrip.title")}
+          </h1>
+          <p className="text-gray-600">{t("editTrip.subtitle")}</p>
         </div>
       </div>
 
@@ -161,7 +164,7 @@ export default function EditTripPage() {
               htmlFor="title"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Judul Trip *
+              {t("editTrip.tripTitleLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -175,7 +178,7 @@ export default function EditTripPage() {
                 value={formData.title}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Winter Adventure in Japan"
+                placeholder={t("editTrip.tripTitlePlaceholder")}
               />
             </div>
           </div>
@@ -186,7 +189,7 @@ export default function EditTripPage() {
               htmlFor="departureLocation"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Lokasi Keberangkatan
+              {t("editTrip.departureLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -199,7 +202,7 @@ export default function EditTripPage() {
                 value={formData.departureLocation}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Jakarta, Indonesia"
+                placeholder={t("editTrip.departurePlaceholder")}
               />
             </div>
           </div>
@@ -210,7 +213,7 @@ export default function EditTripPage() {
               htmlFor="destination"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Destinasi *
+              {t("editTrip.destinationLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -224,7 +227,7 @@ export default function EditTripPage() {
                 value={formData.destination}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Tokyo, Japan"
+                placeholder={t("editTrip.destinationPlaceholder")}
               />
             </div>
           </div>
@@ -236,7 +239,7 @@ export default function EditTripPage() {
                 htmlFor="startDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Mulai *
+                {t("editTrip.startDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -259,7 +262,7 @@ export default function EditTripPage() {
                 htmlFor="endDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Selesai *
+                {t("editTrip.endDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -285,7 +288,7 @@ export default function EditTripPage() {
               htmlFor="budget"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Budget (Rupiah)
+              {t("editTrip.budgetLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -298,12 +301,12 @@ export default function EditTripPage() {
                 value={formData.budget}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="5000000"
+                placeholder={t("editTrip.budgetPlaceholder")}
                 min="0"
               />
             </div>
             <p className="mt-1 text-xs text-gray-500">
-              Masukkan budget dalam Rupiah (Rp)
+              {t("editTrip.budgetHint")}
             </p>
           </div>
 
@@ -313,7 +316,7 @@ export default function EditTripPage() {
               htmlFor="description"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Deskripsi (Opsional)
+              {t("editTrip.descriptionLabel")}
             </label>
             <textarea
               id="description"
@@ -322,7 +325,7 @@ export default function EditTripPage() {
               onChange={handleChange}
               rows="4"
               className="input"
-              placeholder="Ceritakan tentang trip ini..."
+              placeholder={t("editTrip.descriptionPlaceholder")}
             ></textarea>
           </div>
 
@@ -334,14 +337,14 @@ export default function EditTripPage() {
               className="btn-secondary flex-1"
               disabled={loading}
             >
-              Batal
+              {t("editTrip.cancelButton")}
             </button>
             <button
               type="submit"
               className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={loading}
             >
-              {loading ? "Menyimpan..." : "Simpan Perubahan"}
+              {loading ? t("editTrip.saving") : t("editTrip.saveButton")}
             </button>
           </div>
         </form>
@@ -350,9 +353,8 @@ export default function EditTripPage() {
       {/* Info Box */}
       <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
         <p className="text-sm text-blue-800">
-          💡 <strong>Tips:</strong> Perubahan pada tanggal trip mungkin
-          mempengaruhi aktivitas yang sudah dijadwalkan. Pastikan untuk
-          memeriksa itinerary setelah menyimpan perubahan.
+          💡 <strong>{t("editTrip.infoTipTitle")}</strong>{" "}
+          {t("editTrip.infoTip")}
         </p>
       </div>
     </div>

@@ -9,12 +9,16 @@ import LocationPicker from "../components/LocationPicker";
 import url from "../constants/url";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const ActivityForm = () => {
   const { tripId, activityId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(!!activityId);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const [formData, setFormData] = useState({
     day: 1,
@@ -89,14 +93,24 @@ const ActivityForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.title.trim())
+      newErrors.title =
+        language === "id" ? "Judul wajib diisi" : "Title is required";
     if (!formData.day || formData.day < 1)
-      newErrors.day = "Valid day is required";
-    if (!formData.category) newErrors.category = "Category is required";
+      newErrors.day =
+        language === "id"
+          ? "Hari yang valid wajib diisi"
+          : "Valid day is required";
+    if (!formData.category)
+      newErrors.category =
+        language === "id" ? "Kategori wajib diisi" : "Category is required";
 
     if (formData.startTime && formData.endTime) {
       if (formData.endTime <= formData.startTime) {
-        newErrors.endTime = "End time must be after start time";
+        newErrors.endTime =
+          language === "id"
+            ? "Waktu selesai harus setelah waktu mulai"
+            : "End time must be after start time";
       }
     }
 
@@ -126,7 +140,7 @@ const ActivityForm = () => {
           },
         });
 
-        toast.success("Berhasil update activity");
+        toast.success(t("activityForm.updateSuccess"));
       } else {
         await axios.post(`${url}/activities/trip/${tripId}`, submitData, {
           headers: {
@@ -134,7 +148,7 @@ const ActivityForm = () => {
           },
         });
 
-        toast.success("Berhasil nambah activity");
+        toast.success(t("activityForm.addSuccess"));
       }
 
       navigate(`/${tripId}`);
@@ -151,9 +165,11 @@ const ActivityForm = () => {
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          {activityId ? "Edit Activity" : "Add New Activity"}
+          {activityId
+            ? t("activityForm.editTitle")
+            : t("activityForm.addTitle")}
         </h1>
-        <p className="text-gray-600">Fill in the details for your activity</p>
+        <p className="text-gray-600">{t("activityForm.subtitle")}</p>
       </div>
 
       <Card>
@@ -161,30 +177,30 @@ const ActivityForm = () => {
           <div className="space-y-6">
             {/* Day */}
             <Input
-              label="Day"
+              label={t("activityForm.day")}
               name="day"
               type="number"
               min="1"
               value={formData.day}
               onChange={handleChange}
               error={errors.day}
-              placeholder="e.g., 1"
+              placeholder={t("activityForm.dayPlaceholder")}
             />
 
             {/* Title */}
             <Input
-              label="Activity Title"
+              label={t("activityForm.activityTitle")}
               name="title"
               value={formData.title}
               onChange={handleChange}
               error={errors.title}
-              placeholder="e.g., Visit Uluwatu Temple"
+              placeholder={t("activityForm.titlePlaceholder")}
             />
 
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description
+                {t("activityForm.description")}
               </label>
               <textarea
                 name="description"
@@ -192,14 +208,14 @@ const ActivityForm = () => {
                 onChange={handleChange}
                 rows="3"
                 className="input"
-                placeholder="Brief description of the activity"
+                placeholder={t("activityForm.descriptionPlaceholder")}
               />
             </div>
 
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Category
+                {t("activityForm.category")}
               </label>
               <select
                 name="category"
@@ -207,20 +223,24 @@ const ActivityForm = () => {
                 onChange={handleChange}
                 className="input"
               >
-                <option value="sightseeing">🏛️ Sightseeing</option>
-                <option value="food">🍽️ Food & Dining</option>
-                <option value="transport">🚗 Transportation</option>
-                <option value="hotel">🏨 Accommodation</option>
-                <option value="activity">🎯 Activity/Experience</option>
-                <option value="shopping">🛍️ Shopping</option>
-                <option value="other">📦 Other</option>
+                <option value="sightseeing">
+                  {t("activityForm.sightseeing")}
+                </option>
+                <option value="food">{t("activityForm.food")}</option>
+                <option value="transport">{t("activityForm.transport")}</option>
+                <option value="hotel">{t("activityForm.hotel")}</option>
+                <option value="activity">
+                  {t("activityForm.activityExp")}
+                </option>
+                <option value="shopping">{t("activityForm.shopping")}</option>
+                <option value="other">{t("activityForm.other")}</option>
               </select>
             </div>
 
             {/* Time */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
-                label="Start Time"
+                label={t("activityForm.startTime")}
                 name="startTime"
                 type="time"
                 value={formData.startTime}
@@ -228,7 +248,7 @@ const ActivityForm = () => {
               />
 
               <Input
-                label="End Time"
+                label={t("activityForm.endTime")}
                 name="endTime"
                 type="time"
                 value={formData.endTime}
@@ -240,29 +260,29 @@ const ActivityForm = () => {
             {/* Duration & Cost */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
-                label="Duration (minutes)"
+                label={t("activityForm.duration")}
                 name="duration"
                 type="number"
                 value={formData.duration}
                 onChange={handleChange}
-                placeholder="e.g., 120"
+                placeholder={t("activityForm.durationPlaceholder")}
               />
 
               <Input
-                label="Estimated Cost (USD)"
+                label={t("activityForm.cost")}
                 name="cost"
                 type="number"
                 step="0.01"
                 value={formData.cost}
                 onChange={handleChange}
-                placeholder="e.g., 50.00"
+                placeholder={t("activityForm.costPlaceholder")}
               />
             </div>
 
             {/* Location */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Location
+                {t("activityForm.location")}
               </label>
               <LocationPicker
                 value={formData.location}
@@ -272,14 +292,14 @@ const ActivityForm = () => {
                     location,
                   }));
                 }}
-                placeholder="Search for a location..."
+                placeholder={t("activityForm.locationPlaceholder")}
               />
             </div>
 
             {/* Notes */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Notes / Tips
+                {t("activityForm.notes")}
               </label>
               <textarea
                 name="notes"
@@ -287,7 +307,7 @@ const ActivityForm = () => {
                 onChange={handleChange}
                 rows="2"
                 className="input"
-                placeholder="Any special notes or tips for this activity"
+                placeholder={t("activityForm.notesPlaceholder")}
               />
             </div>
           </div>
@@ -296,7 +316,9 @@ const ActivityForm = () => {
           <div className="mt-8 flex gap-4">
             <Button type="submit" loading={loading} className="flex-1">
               <Save size={20} className="inline mr-2" />
-              {activityId ? "Update Activity" : "Add Activity"}
+              {activityId
+                ? t("activityForm.updateButton")
+                : t("activityForm.addButton")}
             </Button>
 
             <Button
@@ -306,7 +328,7 @@ const ActivityForm = () => {
               disabled={loading}
             >
               <X size={20} className="inline mr-2" />
-              Cancel
+              {t("common.cancel")}
             </Button>
           </div>
         </form>

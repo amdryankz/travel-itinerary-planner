@@ -8,9 +8,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import url from "../constants/url";
 import { useSelector } from "react-redux";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function Dashboard() {
   const user = useSelector((state) => state.auth?.user?.data);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -18,15 +22,15 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
 
   const statusDisplay = {
-    draft: "📝 Draf",
-    confirmed: "✅ Sudah Fix",
-    completed: "🎉 Selesai",
+    draft: language === "id" ? "📝 Draf" : "📝 Draft",
+    confirmed: language === "id" ? "✅ Sudah Fix" : "✅ Confirmed",
+    completed: language === "id" ? "🎉 Selesai" : "🎉 Completed",
   };
 
   const statusCardDisplay = {
-    draft: "Draf",
-    confirmed: "Sudah Fix",
-    completed: "Selesai",
+    draft: t("dashboardPage.statusDraft"),
+    confirmed: t("dashboardPage.statusConfirmed"),
+    completed: t("dashboardPage.statusCompleted"),
   };
 
   async function fetchTrips() {
@@ -86,11 +90,9 @@ export default function Dashboard() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Halo lagi, {user?.name}!
+          {t("dashboardPage.greeting")}, {user?.name}!
         </h1>
-        <p className="text-gray-600">
-          Yuk, atur trip kamu dan rencanain petualangan baru
-        </p>
+        <p className="text-gray-600">{t("dashboardPage.subtitle")}</p>
       </div>
 
       <SearchFilter
@@ -108,7 +110,9 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Total Trip</p>
+              <p className="text-gray-600 text-sm">
+                {t("dashboardPage.totalTrips")}
+              </p>
               <p className="text-2xl font-bold text-gray-900">{trips.length}</p>
             </div>
             <MapPin className="text-primary-600" size={32} />
@@ -118,7 +122,9 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Selanjutnya</p>
+              <p className="text-gray-600 text-sm">
+                {t("dashboardPage.upcoming")}
+              </p>
               <p className="text-2xl font-bold text-gray-900">
                 {trips.filter((t) => t.status === "confirmed").length}
               </p>
@@ -130,7 +136,9 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Udah Selesai</p>
+              <p className="text-gray-600 text-sm">
+                {t("dashboardPage.completed")}
+              </p>
               <p className="text-2xl font-bold text-gray-900">
                 {trips.filter((t) => t.status === "completed").length}
               </p>
@@ -142,11 +150,13 @@ export default function Dashboard() {
 
       {/* Tombol Aksi */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Trip Kamu</h2>
+        <h2 className="text-2xl font-bold text-gray-900">
+          {t("dashboardPage.yourTrips")}
+        </h2>
         <Link to="/create-trip">
           <Button>
             <Plus size={20} className="inline mr-2" />
-            Bikin Trip Baru
+            {t("dashboardPage.createNewTrip")}
           </Button>
         </Link>
       </div>
@@ -157,13 +167,11 @@ export default function Dashboard() {
         <Card className="text-center py-12">
           <MapPin className="mx-auto text-gray-400 mb-4" size={48} />
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Belum ada trip nih
+            {t("dashboardPage.noTrips")}
           </h3>
-          <p className="text-gray-600 mb-6">
-            Yuk, mulai rencanain petualangan pertamamu!
-          </p>
+          <p className="text-gray-600 mb-6">{t("dashboardPage.noTripsDesc")}</p>
           <Link to="/create-trip">
-            <Button>Bikin Trip Pertamamu</Button>
+            <Button>{t("dashboardPage.createFirstTrip")}</Button>
           </Link>
         </Card>
       ) : (
@@ -211,13 +219,16 @@ export default function Dashboard() {
 
                 {trip.budget && (
                   <div className="text-sm text-gray-600">
-                    Bujet: Rp {trip.budget.toLocaleString()}
+                    {t("dashboardPage.budget")}: Rp{" "}
+                    {trip.budget.toLocaleString()}
                   </div>
                 )}
 
                 {trip.activities && trip.activities.length > 0 && (
                   <div className="mt-3 text-sm text-gray-500">
-                    Ada {trip.activities.length} kegiatan
+                    {language === "id"
+                      ? `Ada ${trip.activities.length} kegiatan`
+                      : `${trip.activities.length} activities`}
                   </div>
                 )}
               </Card>

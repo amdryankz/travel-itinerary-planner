@@ -5,11 +5,15 @@ import Modal from "./Modal";
 import { TrendingUp, Sparkles } from "lucide-react";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const BudgetAnalysis = ({ tripId }) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const cleanMarkdown = (text) => {
     if (!text) return "";
@@ -26,7 +30,7 @@ const BudgetAnalysis = ({ tripId }) => {
       setShowModal(true);
     } catch (error) {
       console.error("Budget analysis failed:", error);
-      alert("Failed to analyze budget");
+      alert(t("components.budgetAnalysis.failed"));
     } finally {
       setLoading(false);
     }
@@ -36,13 +40,13 @@ const BudgetAnalysis = ({ tripId }) => {
     <>
       <Button variant="outline" onClick={handleAnalyze} loading={loading}>
         <Sparkles size={20} className="mr-2" />
-        AI Budget Analysis
+        {t("components.budgetAnalysis.button")}
       </Button>
 
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="AI Budget Analysis"
+        title={t("components.budgetAnalysis.title")}
       >
         {analysis && (
           <div className="space-y-4">
@@ -66,8 +70,8 @@ const BudgetAnalysis = ({ tripId }) => {
                 <div>
                   <p className="font-semibold text-gray-900">
                     {analysis.status === "over_budget"
-                      ? "Over Budget"
-                      : "Within Budget"}
+                      ? t("components.budgetAnalysis.overBudget")
+                      : t("components.budgetAnalysis.withinBudget")}
                   </p>
                   <p className="text-sm text-gray-600">
                     Rp {(analysis.totalSpent || 0).toLocaleString()} / Rp{" "}
@@ -79,9 +83,12 @@ const BudgetAnalysis = ({ tripId }) => {
 
             {/* AI Analysis */}
             <Card>
-              <h3 className="font-semibold text-gray-900 mb-2">AI Insights</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                {t("components.budgetAnalysis.insights")}
+              </h3>
               <div className="text-gray-700 whitespace-pre-wrap">
-                {cleanMarkdown(analysis.analysis) || "No analysis available"}
+                {cleanMarkdown(analysis.analysis) ||
+                  t("components.budgetAnalysis.noAnalysis")}
               </div>
             </Card>
           </div>

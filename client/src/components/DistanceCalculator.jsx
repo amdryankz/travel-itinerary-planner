@@ -4,11 +4,15 @@ import Modal from "./Modal";
 import { Navigation2 } from "lucide-react";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const DistanceCalculator = ({ activities }) => {
   const [showModal, setShowModal] = useState(false);
   const [calculating, setCalculating] = useState(false);
   const [distances, setDistances] = useState([]);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
   const calculateDistances = async () => {
     try {
@@ -46,7 +50,7 @@ const DistanceCalculator = ({ activities }) => {
       setShowModal(true);
     } catch (error) {
       console.error("Distance calculation failed:", error);
-      alert("Failed to calculate distances. Please try again.");
+      alert(t("components.distanceCalc.failed"));
     } finally {
       setCalculating(false);
     }
@@ -60,13 +64,13 @@ const DistanceCalculator = ({ activities }) => {
         loading={calculating}
       >
         <Navigation2 size={16} className="mr-2" />
-        Calculate Distances
+        {t("components.distanceCalc.button")}
       </Button>
 
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Travel Distances"
+        title={t("components.distanceCalc.title")}
       >
         <div className="space-y-3">
           {distances.map((dist, idx) => (
@@ -88,11 +92,15 @@ const DistanceCalculator = ({ activities }) => {
               </div>
               <div className="flex gap-4 text-sm text-gray-600">
                 <div>
-                  <span className="font-medium">Distance:</span>{" "}
+                  <span className="font-medium">
+                    {t("components.distanceCalc.distance")}:
+                  </span>{" "}
                   {dist.distance || "N/A"}
                 </div>
                 <div>
-                  <span className="font-medium">Duration:</span>{" "}
+                  <span className="font-medium">
+                    {t("components.distanceCalc.duration")}:
+                  </span>{" "}
                   {dist.duration || "N/A"}
                 </div>
               </div>
@@ -101,7 +109,7 @@ const DistanceCalculator = ({ activities }) => {
 
           {distances.length === 0 && (
             <p className="text-center text-gray-500 py-8">
-              No distances to calculate
+              {t("components.distanceCalc.noDistances")}
             </p>
           )}
 
@@ -110,7 +118,7 @@ const DistanceCalculator = ({ activities }) => {
             <div className="border-t pt-3 mt-3">
               <div className="flex justify-between text-sm">
                 <span className="font-semibold text-gray-900">
-                  Total Distance:
+                  {t("components.distanceCalc.totalDistance")}:
                 </span>
                 <span className="font-semibold text-primary-600">
                   {distances

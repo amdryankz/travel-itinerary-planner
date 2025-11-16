@@ -4,10 +4,14 @@ import { Calendar, MapPin, DollarSign, FileText, PenTool } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function ManualCreateTripPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [formData, setFormData] = useState({
     title: "",
     destination: "",
@@ -57,11 +61,10 @@ export default function ManualCreateTripPage() {
 
     toast
       .promise(createTripPromise, {
-        loading: "Membuat trip...",
-        success: "Trip berhasil dibuat! 🎉",
+        loading: t("manualCreate.creatingToast"),
+        success: t("manualCreate.successToast"),
         error: (err) =>
-          err.response?.data?.message ||
-          "Gagal membuat trip. Silakan coba lagi.",
+          err.response?.data?.message || t("manualCreate.errorToast"),
       })
       .finally(() => setLoading(false));
   };
@@ -76,11 +79,9 @@ export default function ManualCreateTripPage() {
           </div>
         </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Buat Trip Manual
+          {t("manualCreate.title")}
         </h1>
-        <p className="text-gray-600">
-          Isi detail perjalananmu dan atur semuanya sesuai keinginan
-        </p>
+        <p className="text-gray-600">{t("manualCreate.subtitle")}</p>
       </div>
 
       {/* Form */}
@@ -92,7 +93,7 @@ export default function ManualCreateTripPage() {
               htmlFor="title"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Judul Trip *
+              {t("manualCreate.tripTitleLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -106,7 +107,7 @@ export default function ManualCreateTripPage() {
                 value={formData.title}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Winter Adventure in Japan"
+                placeholder={t("manualCreate.tripTitlePlaceholder")}
               />
             </div>
           </div>
@@ -117,7 +118,7 @@ export default function ManualCreateTripPage() {
               htmlFor="departureLocation"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Lokasi Keberangkatan
+              {t("manualCreate.departureLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -130,7 +131,7 @@ export default function ManualCreateTripPage() {
                 value={formData.departureLocation}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Jakarta, Indonesia"
+                placeholder={t("manualCreate.departurePlaceholder")}
               />
             </div>
           </div>
@@ -141,7 +142,7 @@ export default function ManualCreateTripPage() {
               htmlFor="destination"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Destinasi *
+              {t("manualCreate.destinationLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -155,7 +156,7 @@ export default function ManualCreateTripPage() {
                 value={formData.destination}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Tokyo, Japan"
+                placeholder={t("manualCreate.destinationPlaceholder")}
               />
             </div>
           </div>
@@ -167,7 +168,7 @@ export default function ManualCreateTripPage() {
                 htmlFor="startDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Mulai *
+                {t("manualCreate.startDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -190,7 +191,7 @@ export default function ManualCreateTripPage() {
                 htmlFor="endDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Selesai *
+                {t("manualCreate.endDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -216,7 +217,7 @@ export default function ManualCreateTripPage() {
               htmlFor="budget"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Budget (Rupiah)
+              {t("manualCreate.budgetLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -229,12 +230,12 @@ export default function ManualCreateTripPage() {
                 value={formData.budget}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="5000000"
+                placeholder={t("manualCreate.budgetPlaceholder")}
                 min="0"
               />
             </div>
             <p className="mt-1 text-xs text-gray-500">
-              Masukkan budget dalam Rupiah (Rp)
+              {t("manualCreate.budgetHint")}
             </p>
           </div>
 
@@ -244,7 +245,7 @@ export default function ManualCreateTripPage() {
               htmlFor="description"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Deskripsi (Opsional)
+              {t("manualCreate.descriptionLabel")}
             </label>
             <textarea
               id="description"
@@ -253,7 +254,7 @@ export default function ManualCreateTripPage() {
               onChange={handleChange}
               rows="4"
               className="input"
-              placeholder="Ceritakan tentang trip ini..."
+              placeholder={t("manualCreate.descriptionPlaceholder")}
             ></textarea>
           </div>
 
@@ -265,14 +266,16 @@ export default function ManualCreateTripPage() {
               className="btn-secondary flex-1"
               disabled={loading}
             >
-              Kembali
+              {t("manualCreate.backButton")}
             </button>
             <button
               type="submit"
               className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={loading}
             >
-              {loading ? "Membuat..." : "Buat Trip"}
+              {loading
+                ? t("manualCreate.creating")
+                : t("manualCreate.createButton")}
             </button>
           </div>
         </form>

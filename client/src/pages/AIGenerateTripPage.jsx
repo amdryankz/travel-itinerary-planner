@@ -11,10 +11,14 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function AIGenerateTripPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
   const [formData, setFormData] = useState({
     destination: "",
     departureLocation: "",
@@ -174,11 +178,10 @@ export default function AIGenerateTripPage() {
 
     toast
       .promise(generateTripPromise, {
-        loading: "AI sedang membuat itinerary untukmu... ✨",
-        success: "Trip berhasil dibuat dengan AI! 🎉",
+        loading: t("aiGenerate.generatingToast"),
+        success: t("aiGenerate.successToast"),
         error: (err) =>
-          err.response?.data?.message ||
-          "Gagal generate trip. Silakan coba lagi.",
+          err.response?.data?.message || t("aiGenerate.errorToast"),
       })
       .finally(() => setLoading(false));
   };
@@ -186,20 +189,20 @@ export default function AIGenerateTripPage() {
   const travelStyles = [
     {
       id: "relaxed",
-      name: "Santai",
-      description: "Lebih banyak waktu luang dan istirahat",
+      name: t("aiGenerate.relaxed"),
+      description: t("aiGenerate.relaxedDesc"),
       emoji: "🏖️",
     },
     {
       id: "balanced",
-      name: "Seimbang",
-      description: "Kombinasi aktivitas dan istirahat",
+      name: t("aiGenerate.balanced"),
+      description: t("aiGenerate.balancedDesc"),
       emoji: "⚖️",
     },
     {
       id: "adventure",
-      name: "Petualangan",
-      description: "Penuh aktivitas dan eksplorasi",
+      name: t("aiGenerate.adventure"),
+      description: t("aiGenerate.adventureDesc"),
       emoji: "🏃",
     },
   ];
@@ -214,12 +217,9 @@ export default function AIGenerateTripPage() {
           </div>
         </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Generate Trip dengan AI
+          {t("aiGenerate.title")}
         </h1>
-        <p className="text-gray-600">
-          Beri tahu kami preferensimu, dan AI akan membuat itinerary sempurna
-          untukmu
-        </p>
+        <p className="text-gray-600">{t("aiGenerate.subtitle")}</p>
       </div>
 
       {/* Form */}
@@ -231,7 +231,7 @@ export default function AIGenerateTripPage() {
               htmlFor="departureLocation"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Keberangkatan *
+              {t("aiGenerate.departureLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -245,7 +245,7 @@ export default function AIGenerateTripPage() {
                 value={formData.departureLocation}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Jakarta, Indonesia"
+                placeholder={t("aiGenerate.departurePlaceholder")}
               />
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function AIGenerateTripPage() {
               htmlFor="destination"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Destinasi *
+              {t("aiGenerate.destinationLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -270,7 +270,7 @@ export default function AIGenerateTripPage() {
                 value={formData.destination}
                 onChange={handleChange}
                 className="input pl-10"
-                placeholder="e.g., Tokyo, Paris, Bali"
+                placeholder={t("aiGenerate.destinationPlaceholder")}
               />
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function AIGenerateTripPage() {
                 htmlFor="startDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Mulai *
+                {t("aiGenerate.startDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -305,7 +305,7 @@ export default function AIGenerateTripPage() {
                 htmlFor="endDate"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Tanggal Selesai *
+                {t("aiGenerate.endDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -332,7 +332,7 @@ export default function AIGenerateTripPage() {
                 htmlFor="budget"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Budget (Rupiah)
+                {t("aiGenerate.budgetLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -345,12 +345,12 @@ export default function AIGenerateTripPage() {
                   value={formData.budget}
                   onChange={handleChange}
                   className="input pl-10"
-                  placeholder="5000000"
+                  placeholder={t("aiGenerate.budgetPlaceholder")}
                   min="0"
                 />
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                AI akan menyesuaikan rekomendasi dengan budget
+                {t("aiGenerate.budgetHint")}
               </p>
             </div>
 
@@ -359,7 +359,7 @@ export default function AIGenerateTripPage() {
                 htmlFor="participants"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Jumlah Orang
+                {t("aiGenerate.participantsLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -372,7 +372,7 @@ export default function AIGenerateTripPage() {
                   value={formData.participants}
                   onChange={handleChange}
                   className="input pl-10"
-                  placeholder="1"
+                  placeholder={t("aiGenerate.participantsPlaceholder")}
                   min="1"
                 />
               </div>
@@ -382,7 +382,7 @@ export default function AIGenerateTripPage() {
           {/* Travel Style */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
-              Gaya Perjalanan *
+              {t("aiGenerate.travelStyleLabel")}
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {travelStyles.map((style) => (
@@ -422,7 +422,7 @@ export default function AIGenerateTripPage() {
               htmlFor="preferences"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Preferensi & Minat (Opsional)
+              {t("aiGenerate.preferencesLabel")}
             </label>
             <div className="relative">
               <div className="absolute top-3 left-3 pointer-events-none">
@@ -435,12 +435,11 @@ export default function AIGenerateTripPage() {
                 onChange={handleChange}
                 rows="4"
                 className="input pl-10"
-                placeholder="e.g., Suka kuliner, fotografi, museum, pantai, hiking..."
+                placeholder={t("aiGenerate.preferencesPlaceholder")}
               ></textarea>
             </div>
             <p className="mt-1 text-xs text-gray-500">
-              Ceritakan aktivitas yang kamu suka agar AI bisa membuat
-              rekomendasi yang lebih personal
+              {t("aiGenerate.preferencesHint")}
             </p>
           </div>
 
@@ -449,12 +448,14 @@ export default function AIGenerateTripPage() {
             <div className="flex items-start space-x-3">
               <Sparkles className="h-5 w-5 text-primary-600 mt-0.5 shrink-0" />
               <div className="text-sm text-primary-900">
-                <p className="font-medium mb-1">AI akan membuat:</p>
+                <p className="font-medium mb-1">
+                  {t("aiGenerate.aiWillCreate")}
+                </p>
                 <ul className="space-y-1 text-primary-800">
-                  <li>• Itinerary harian lengkap dengan aktivitas</li>
-                  <li>• Rekomendasi tempat wisata & kuliner</li>
-                  <li>• Estimasi waktu & budget per aktivitas</li>
-                  <li>• Rute perjalanan yang optimal</li>
+                  <li>• {t("aiGenerate.dailyItinerary")}</li>
+                  <li>• {t("aiGenerate.recommendations")}</li>
+                  <li>• {t("aiGenerate.timebudget")}</li>
+                  <li>• {t("aiGenerate.optimalRoute")}</li>
                 </ul>
               </div>
             </div>
@@ -468,7 +469,7 @@ export default function AIGenerateTripPage() {
               className="btn-secondary flex-1"
               disabled={loading}
             >
-              Kembali
+              {t("aiGenerate.backButton")}
             </button>
             <button
               type="submit"
@@ -478,12 +479,12 @@ export default function AIGenerateTripPage() {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  <span>Generating...</span>
+                  <span>{t("aiGenerate.generating")}</span>
                 </>
               ) : (
                 <>
                   <Sparkles size={20} />
-                  <span>Generate Trip</span>
+                  <span>{t("aiGenerate.generateButton")}</span>
                 </>
               )}
             </button>

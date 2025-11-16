@@ -5,9 +5,14 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Mail, Lock, Plane } from "lucide-react";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -37,10 +42,9 @@ export default function LoginPage() {
       .promise(
         loginPromise,
         {
-          loading: "Memproses login...",
-          success: "Berhasil masuk! Selamat datang kembali 🎉",
-          error: (err) =>
-            err.response?.data?.message || "Login gagal. Silakan coba lagi.",
+          loading: t("login.withGoogle"),
+          success: t("login.loginSuccess"),
+          error: (err) => err.response?.data?.message || t("login.loginError"),
         },
         {
           success: {
@@ -71,11 +75,9 @@ export default function LoginPage() {
     toast.promise(
       googleLoginPromise,
       {
-        loading: "Masuk dengan Google...",
-        success: "Berhasil masuk dengan Google! 🎉",
-        error: (err) =>
-          err.response?.data?.message ||
-          "Login Google gagal. Silakan coba lagi.",
+        loading: t("login.withGoogle"),
+        success: t("login.googleSuccess"),
+        error: (err) => err.response?.data?.message || t("login.googleError"),
       },
       {
         success: {
@@ -100,11 +102,9 @@ export default function LoginPage() {
             </div>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">
-            Selamat Datang Kembali
+            {t("login.welcomeBack")}
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Masuk ke akunmu untuk melanjutkan petualangan
-          </p>
+          <p className="mt-2 text-sm text-gray-600">{t("login.subtitle")}</p>
         </div>
 
         {/* Login Form */}
@@ -116,7 +116,7 @@ export default function LoginPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Email
+                {t("auth.email")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -142,7 +142,7 @@ export default function LoginPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Password
+                {t("auth.password")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -169,7 +169,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Memproses..." : "Masuk"}
+                {loading ? t("login.processing") : t("login.loginButton")}
               </button>
             </div>
           </form>
@@ -181,7 +181,9 @@ export default function LoginPage() {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Atau</span>
+                <span className="px-2 bg-white text-gray-500">
+                  {t("login.or")}
+                </span>
               </div>
             </div>
           </div>
@@ -191,7 +193,7 @@ export default function LoginPage() {
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               onError={() => {
-                toast.error("Login Google gagal");
+                toast.error(t("login.googleError"));
               }}
               useOneTap
             />
@@ -200,12 +202,12 @@ export default function LoginPage() {
           {/* Register Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Belum punya akun?{" "}
+              {t("login.noAccount")}{" "}
               <Link
                 to="/register"
                 className="font-medium text-primary-600 hover:text-primary-500"
               >
-                Daftar sekarang
+                {t("login.registerNow")}
               </Link>
             </p>
           </div>
@@ -217,7 +219,7 @@ export default function LoginPage() {
             to="/"
             className="text-sm text-gray-600 hover:text-primary-600 transition-colors"
           >
-            ← Kembali ke beranda
+            ← {t("login.backToHome")}
           </Link>
         </div>
       </div>

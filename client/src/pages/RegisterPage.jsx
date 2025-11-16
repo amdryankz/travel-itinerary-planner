@@ -5,9 +5,14 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Mail, Lock, User, Plane } from "lucide-react";
 import url from "../constants/url";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,11 +41,10 @@ export default function RegisterPage() {
       .promise(
         registerPromise,
         {
-          loading: "Membuat akun...",
-          success: "Pendaftaran berhasil! Silakan login 🎉",
+          loading: t("register.creatingAccount"),
+          success: t("register.registerSuccess"),
           error: (err) =>
-            err.response?.data?.message ||
-            "Pendaftaran gagal. Silakan coba lagi.",
+            err.response?.data?.message || t("register.registerError"),
         },
         {
           success: {
@@ -71,11 +75,10 @@ export default function RegisterPage() {
     toast.promise(
       googleLoginPromise,
       {
-        loading: "Masuk dengan Google...",
-        success: "Berhasil masuk dengan Google! 🎉",
+        loading: t("register.withGoogle"),
+        success: t("register.googleSuccess"),
         error: (err) =>
-          err.response?.data?.message ||
-          "Login Google gagal. Silakan coba lagi.",
+          err.response?.data?.message || t("register.googleError"),
       },
       {
         success: {
@@ -95,10 +98,10 @@ export default function RegisterPage() {
               <Plane className="h-10 w-10 text-white" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Buat Akun Baru</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Mulai rencanakan perjalanan impianmu hari ini
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">
+            {t("register.title")}
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">{t("register.subtitle")}</p>
         </div>
 
         {/* Register Form */}
@@ -110,7 +113,7 @@ export default function RegisterPage() {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Nama Lengkap
+                {t("register.fullName")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -136,7 +139,7 @@ export default function RegisterPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Email
+                {t("auth.email")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -162,7 +165,7 @@ export default function RegisterPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Password
+                {t("auth.password")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -181,7 +184,9 @@ export default function RegisterPage() {
                   minLength="6"
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500">Minimal 6 karakter</p>
+              <p className="mt-1 text-xs text-gray-500">
+                {t("register.minChars")}
+              </p>
             </div>
 
             {/* Submit Button */}
@@ -191,7 +196,9 @@ export default function RegisterPage() {
                 disabled={loading}
                 className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Memproses..." : "Daftar Sekarang"}
+                {loading
+                  ? t("register.processing")
+                  : t("register.registerButton")}
               </button>
             </div>
           </form>
@@ -203,7 +210,9 @@ export default function RegisterPage() {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Atau</span>
+                <span className="px-2 bg-white text-gray-500">
+                  {t("register.or")}
+                </span>
               </div>
             </div>
           </div>
@@ -213,7 +222,7 @@ export default function RegisterPage() {
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               onError={() => {
-                toast.error("Login Google gagal");
+                toast.error(t("register.googleError"));
               }}
             />
           </div>
@@ -221,12 +230,12 @@ export default function RegisterPage() {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Sudah punya akun?{" "}
+              {t("register.haveAccount")}{" "}
               <Link
                 to="/login"
                 className="font-medium text-primary-600 hover:text-primary-500"
               >
-                Masuk di sini
+                {t("register.loginHere")}
               </Link>
             </p>
           </div>
@@ -238,7 +247,7 @@ export default function RegisterPage() {
             to="/"
             className="text-sm text-gray-600 hover:text-primary-600 transition-colors"
           >
-            ← Kembali ke beranda
+            ← {t("register.backToHome")}
           </Link>
         </div>
       </div>

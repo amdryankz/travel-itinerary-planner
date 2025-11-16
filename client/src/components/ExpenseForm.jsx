@@ -3,6 +3,8 @@ import Input from "./Input";
 import Button from "./Button";
 import Modal from "./Modal";
 import { DollarSign } from "lucide-react";
+import { useLanguage } from "../hooks/useLanguage";
+import { useTranslation } from "../constants/translations";
 
 const ExpenseForm = ({
   isOpen,
@@ -11,6 +13,9 @@ const ExpenseForm = ({
   initialData = null,
   activities = [],
 }) => {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
   const [formData, setFormData] = useState({
     amount: "",
     category: "other",
@@ -44,12 +49,30 @@ const ExpenseForm = ({
   }, [initialData]);
 
   const categories = [
-    { value: "accommodation", label: "🏨 Accommodation" },
-    { value: "food", label: "🍽️ Food & Dining" },
-    { value: "transportation", label: "🚗 Transportation" },
-    { value: "activities", label: "🎯 Activities" },
-    { value: "shopping", label: "🛍️ Shopping" },
-    { value: "other", label: "📦 Other" },
+    {
+      value: "accommodation",
+      label: `🏨 ${t("components.expenseForm.categories.accommodation")}`,
+    },
+    {
+      value: "food",
+      label: `🍽️ ${t("components.expenseForm.categories.food")}`,
+    },
+    {
+      value: "transportation",
+      label: `🚗 ${t("components.expenseForm.categories.transportation")}`,
+    },
+    {
+      value: "activities",
+      label: `🎯 ${t("components.expenseForm.categories.activities")}`,
+    },
+    {
+      value: "shopping",
+      label: `🛍️ ${t("components.expenseForm.categories.shopping")}`,
+    },
+    {
+      value: "other",
+      label: `📦 ${t("components.expenseForm.categories.other")}`,
+    },
   ];
 
   const handleChange = (e) => {
@@ -79,11 +102,15 @@ const ExpenseForm = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={initialData ? "Edit Expense" : "Add Expense"}
+      title={
+        initialData
+          ? t("components.expenseForm.editTitle")
+          : t("components.expenseForm.addTitle")
+      }
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="Amount (USD)"
+          label={t("components.expenseForm.amount")}
           name="amount"
           type="number"
           step="0.01"
@@ -95,7 +122,7 @@ const ExpenseForm = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Category
+            {t("components.expenseForm.category")}
           </label>
           <select
             name="category"
@@ -113,15 +140,15 @@ const ExpenseForm = ({
         </div>
 
         <Input
-          label="Description"
+          label={t("components.expenseForm.description")}
           name="description"
           value={formData.description}
           onChange={handleChange}
-          placeholder="What was this expense for?"
+          placeholder={t("components.expenseForm.descriptionPlaceholder")}
         />
 
         <Input
-          label="Date"
+          label={t("components.expenseForm.date")}
           name="date"
           type="date"
           value={formData.date}
@@ -132,7 +159,7 @@ const ExpenseForm = ({
         {activities.length > 0 && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Link to Activity (Optional)
+              {t("components.expenseForm.linkToActivity")}
             </label>
             <select
               name="activityId"
@@ -140,10 +167,11 @@ const ExpenseForm = ({
               onChange={handleChange}
               className="input"
             >
-              <option value="">Not linked to any activity</option>
+              <option value="">{t("components.expenseForm.noActivity")}</option>
               {activities.map((activity) => (
                 <option key={activity.id} value={activity.id}>
-                  Day {activity.day}: {activity.title}
+                  {t("components.expenseForm.day")} {activity.day}:{" "}
+                  {activity.title}
                 </option>
               ))}
             </select>
@@ -153,7 +181,9 @@ const ExpenseForm = ({
         <div className="flex gap-3 pt-4">
           <Button type="submit" loading={loading} className="flex-1">
             <DollarSign size={20} className="inline mr-2" />
-            {initialData ? "Update Expense" : "Add Expense"}
+            {initialData
+              ? t("components.expenseForm.updateButton")
+              : t("components.expenseForm.addButton")}
           </Button>
           <Button
             type="button"
@@ -161,7 +191,7 @@ const ExpenseForm = ({
             onClick={onClose}
             disabled={loading}
           >
-            Cancel
+            {t("components.expenseForm.cancel")}
           </Button>
         </div>
       </form>

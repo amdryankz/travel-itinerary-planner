@@ -246,13 +246,13 @@ const TripDetails = () => {
   return (
     <div>
       {/* Header with Quick Actions */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {trip.title}
             </h1>
-            <div className="flex flex-wrap gap-4 text-gray-600">
+            <div className="flex flex-wrap gap-4 text-gray-600 dark:text-gray-400">
               <div className="flex items-center gap-2">
                 <MapPin size={20} />
                 <span>{trip.destination}</span>
@@ -307,7 +307,7 @@ const TripDetails = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-md mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6">
         <div className="border-b">
           <nav className="flex -mb-px">
             {tabs.map((tab) => {
@@ -337,7 +337,7 @@ const TripDetails = () => {
         {activeTab === "itinerary" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {t("tripDetail.itinerary")}
               </h2>
               <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
@@ -348,11 +348,11 @@ const TripDetails = () => {
 
             {activities.length === 0 ? (
               <Card className="text-center py-12">
-                <Calendar className="mx-auto text-gray-400 mb-4" size={48} />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <Calendar className="mx-auto text-gray-400 dark:text-gray-500 mb-4" size={48} />
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   {t("tripDetail.noActivities")}
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
                   {t("tripDetail.noActivitiesDesc")}
                 </p>
                 <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
@@ -366,7 +366,7 @@ const TripDetails = () => {
                   .map((day) => (
                     <Card key={day}>
                       <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-bold text-gray-900">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                           {t("tripDetail.day")} {day}
                         </h3>
                       </div>
@@ -377,21 +377,21 @@ const TripDetails = () => {
                           .map((activity) => (
                             <div
                               key={activity.id}
-                              className="border-l-4 border-primary-500 pl-4 py-2 hover:bg-gray-50 transition-colors rounded-r"
+                              className="border-l-4 border-primary-500 pl-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors rounded-r"
                             >
                               <div className="flex justify-between items-start">
                                 <div className="flex-1">
-                                  <h4 className="font-semibold text-gray-900 text-lg">
+                                  <h4 className="font-semibold text-gray-900 dark:text-white text-lg">
                                     {activity.title}
                                   </h4>
 
                                   {activity.description && (
-                                    <p className="text-gray-600 text-sm mt-1">
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                       {activity.description}
                                     </p>
                                   )}
 
-                                  <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
+                                  <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
                                     {activity.startTime && (
                                       <div className="flex items-center gap-1">
                                         <Clock size={16} />
@@ -429,7 +429,7 @@ const TripDetails = () => {
                                   </div>
 
                                   {activity.notes && (
-                                    <p className="text-sm text-gray-500 mt-2 italic bg-yellow-50 px-3 py-2 rounded">
+                                    <p className="text-sm text-gray-500 mt-2 italic bg-yellow-50 dark:bg-yellow-900/20 px-3 py-2 rounded">
                                       💡 {activity.notes}
                                     </p>
                                   )}
@@ -463,7 +463,7 @@ const TripDetails = () => {
                                         `/trips/${id}/activities/${activity.id}/edit`
                                       )
                                     }
-                                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+                                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
                                     title="Edit activity"
                                   >
                                     <Pencil size={16} />
@@ -472,7 +472,7 @@ const TripDetails = () => {
                                     onClick={() =>
                                       handleDeleteActivity(activity.id)
                                     }
-                                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                                     title="Delete activity"
                                   >
                                     <Trash2 size={16} />
@@ -493,10 +493,10 @@ const TripDetails = () => {
         {activeTab === "map" && (
           <div>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 {t("tripDetail.mapView")}
               </h2>
-              <p className="text-gray-600">{t("tripDetail.mapViewDesc")}</p>
+              <p className="text-gray-600 dark:text-gray-400">{t("tripDetail.mapViewDesc")}</p>
             </div>
 
             <Card>
@@ -506,8 +506,8 @@ const TripDetails = () => {
             {activities.filter((a) => a.location?.lat && a.location?.lng)
               .length === 0 && (
               <Card className="mt-4 text-center py-8">
-                <MapIcon className="mx-auto text-gray-400 mb-2" size={48} />
-                <p className="text-gray-600 mb-4">
+                <MapIcon className="mx-auto text-gray-400 dark:text-gray-500 mb-2" size={48} />
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
                   {t("tripDetail.noLocations")}
                 </p>
                 <Button onClick={() => navigate(`/trips/${id}/activities/new`)}>
@@ -522,7 +522,7 @@ const TripDetails = () => {
         {activeTab === "budget" && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {t("tripDetail.budgetExpenses")}
               </h2>
               <div className="flex gap-2">
@@ -565,9 +565,9 @@ const TripDetails = () => {
         title={t("tripDetail.deleteTrip")}
       >
         <div className="space-y-4">
-          <p className="text-gray-600">{t("tripDetail.deleteTripConfirm")}</p>
+          <p className="text-gray-600 dark:text-gray-400">{t("tripDetail.deleteTripConfirm")}</p>
 
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 rounded-lg p-3">
             <p className="text-sm text-red-800">
               ⚠️ {t("tripDetail.deleteTripWarning")}
             </p>

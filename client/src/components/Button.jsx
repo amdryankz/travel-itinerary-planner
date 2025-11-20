@@ -11,10 +11,14 @@ const Button = ({
     "font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-primary-600 text-white hover:bg-primary-700",
-    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
-    outline: "border-2 border-primary-600 text-primary-600 hover:bg-primary-50",
-    danger: "bg-red-600 text-white hover:bg-red-700",
+    primary:
+      "bg-primary-600 dark:bg-primary-500 text-white hover:bg-primary-700 dark:hover:bg-primary-600",
+    secondary:
+      "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600",
+    outline:
+      "border-2 border-primary-600 dark:border-primary-400 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20",
+    danger:
+      "bg-red-600 dark:bg-red-500 text-white hover:bg-red-700 dark:hover:bg-red-600",
   };
 
   const sizes = {

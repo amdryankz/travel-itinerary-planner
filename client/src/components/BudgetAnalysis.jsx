@@ -68,12 +68,12 @@ const BudgetAnalysis = ({ tripId }) => {
                   size={32}
                 />
                 <div>
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold text-gray-900 dark:text-white">
                     {analysis.status === "over_budget"
                       ? t("components.budgetAnalysis.overBudget")
                       : t("components.budgetAnalysis.withinBudget")}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Rp {(analysis.totalSpent || 0).toLocaleString()} / Rp{" "}
                     {(analysis.totalBudget || 0).toLocaleString()}
                   </p>
@@ -83,10 +83,10 @@ const BudgetAnalysis = ({ tripId }) => {
 
             {/* AI Analysis */}
             <Card>
-              <h3 className="font-semibold text-gray-900 mb-2">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                 {t("components.budgetAnalysis.insights")}
               </h3>
-              <div className="text-gray-700 whitespace-pre-wrap">
+              <div className="text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
                 {cleanMarkdown(analysis.analysis) ||
                   t("components.budgetAnalysis.noAnalysis")}
               </div>

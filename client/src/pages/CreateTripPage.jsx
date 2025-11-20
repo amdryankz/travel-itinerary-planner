@@ -30,10 +30,10 @@ export default function CreateTripPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           {t("createTrip.title")}
         </h1>
-        <p className="text-lg text-gray-600">{t("createTrip.subtitle")}</p>
+        <p className="text-lg text-gray-600 dark:text-gray-400">{t("createTrip.subtitle")}</p>
       </div>
 
       {/* Method Selection Cards */}
@@ -48,48 +48,48 @@ export default function CreateTripPage() {
           }`}
         >
           <div className="flex justify-center mb-6">
-            <div className="bg-primary-100 p-4 rounded-full">
-              <Sparkles className="h-12 w-12 text-primary-600" />
+            <div className="bg-primary-100 dark:bg-primary-900/30 p-4 rounded-full">
+              <Sparkles className="h-12 w-12 text-primary-600 dark:text-primary-400" />
             </div>
           </div>
 
-          <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 text-center">
             {t("createTrip.aiGenerate")}
           </h3>
 
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
             {t("createTrip.aiGenerateDesc")}
           </p>
 
           <ul className="space-y-3 mb-6">
             <li className="flex items-start space-x-2">
-              <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-primary-600 dark:text-primary-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.autoDestination")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-primary-600 dark:text-primary-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.personalizedActivities")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-primary-600 dark:text-primary-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.routeOptimization")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-primary-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-primary-600 dark:text-primary-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.autoBudget")}
               </span>
             </li>
           </ul>
 
           <div className="text-center">
-            <span className="inline-flex items-center px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-sm font-medium">
+            <span className="inline-flex items-center px-4 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-700 rounded-full text-sm font-medium">
               🚀 {t("createTrip.quickEasy")}
             </span>
           </div>
@@ -106,47 +106,47 @@ export default function CreateTripPage() {
         >
           <div className="flex justify-center mb-6">
             <div className="bg-green-100 p-4 rounded-full">
-              <PenTool className="h-12 w-12 text-green-600" />
+              <PenTool className="h-12 w-12 text-green-600 dark:text-green-400" />
             </div>
           </div>
 
-          <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 text-center">
             {t("createTrip.manualCreate")}
           </h3>
 
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
             {t("createTrip.manualCreateDesc")}
           </p>
 
           <ul className="space-y-3 mb-6">
             <li className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.fullControl")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.chooseActivities")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.customSchedule")}
               </span>
             </li>
             <li className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">
+              <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+              <span className="text-gray-700 dark:text-gray-200">
                 {t("createTrip.detailBudget")}
               </span>
             </li>
           </ul>
 
           <div className="text-center">
-            <span className="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium">
+            <span className="inline-flex items-center px-4 py-2 bg-green-50 dark:bg-green-900/20 text-green-700 rounded-full text-sm font-medium">
               ✏️ {t("createTrip.flexibleCustom")}
             </span>
           </div>
@@ -175,7 +175,7 @@ export default function CreateTripPage() {
       {/* Info */}
       {selectedMethod && (
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {selectedMethod === "ai"
               ? t("createTrip.aiGeneratorInfo")
               : t("createTrip.manualInfo")}

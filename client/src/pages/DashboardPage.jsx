@@ -66,18 +66,18 @@ export default function Dashboard() {
     return (
       <div>
         <div className="mb-8">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-2 animate-pulse"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-2 animate-pulse"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 animate-pulse"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg shadow-md p-6 animate-pulse"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 animate-pulse"
             >
-              <div className="h-12 bg-gray-200 rounded mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
             </div>
           ))}
         </div>
@@ -89,10 +89,10 @@ export default function Dashboard() {
     <div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           {t("dashboardPage.greeting")}, {user?.name}!
         </h1>
-        <p className="text-gray-600">{t("dashboardPage.subtitle")}</p>
+        <p className="text-gray-600 dark:text-gray-400">{t("dashboardPage.subtitle")}</p>
       </div>
 
       <SearchFilter
@@ -110,47 +110,47 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
                 {t("dashboardPage.totalTrips")}
               </p>
-              <p className="text-2xl font-bold text-gray-900">{trips.length}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{trips.length}</p>
             </div>
-            <MapPin className="text-primary-600" size={32} />
+            <MapPin className="text-primary-600 dark:text-primary-400" size={32} />
           </div>
         </Card>
 
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
                 {t("dashboardPage.upcoming")}
               </p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {trips.filter((t) => t.status === "confirmed").length}
               </p>
             </div>
-            <Calendar className="text-green-600" size={32} />
+            <Calendar className="text-green-600 dark:text-green-400" size={32} />
           </div>
         </Card>
 
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
                 {t("dashboardPage.completed")}
               </p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {trips.filter((t) => t.status === "completed").length}
               </p>
             </div>
-            <Calendar className="text-gray-600" size={32} />
+            <Calendar className="text-gray-600 dark:text-gray-400" size={32} />
           </div>
         </Card>
       </div>
 
       {/* Tombol Aksi */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           {t("dashboardPage.yourTrips")}
         </h2>
         <Link to="/create-trip">
@@ -165,11 +165,11 @@ export default function Dashboard() {
 
       {trips.length === 0 ? (
         <Card className="text-center py-12">
-          <MapPin className="mx-auto text-gray-400 mb-4" size={48} />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <MapPin className="mx-auto text-gray-400 dark:text-gray-500 mb-4" size={48} />
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t("dashboardPage.noTrips")}
           </h3>
-          <p className="text-gray-600 mb-6">{t("dashboardPage.noTripsDesc")}</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{t("dashboardPage.noTripsDesc")}</p>
           <Link to="/create-trip">
             <Button>{t("dashboardPage.createFirstTrip")}</Button>
           </Link>
@@ -188,7 +188,7 @@ export default function Dashboard() {
                 )}
 
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {trip.title}
                   </h3>
                   <span
@@ -204,12 +204,12 @@ export default function Dashboard() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
                   <MapPin size={16} />
                   <span>{trip.destination}</span>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-600 mb-3">
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-3">
                   <Calendar size={16} />
                   <span>
                     {format(new Date(trip.startDate), "MMM d")} -{" "}
@@ -218,14 +218,14 @@ export default function Dashboard() {
                 </div>
 
                 {trip.budget && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
                     {t("dashboardPage.budget")}: Rp{" "}
                     {trip.budget.toLocaleString()}
                   </div>
                 )}
 
                 {trip.activities && trip.activities.length > 0 && (
-                  <div className="mt-3 text-sm text-gray-500">
+                  <div className="mt-3 text-sm text-gray-500 dark:text-gray-400">
                     {language === "id"
                       ? `Ada ${trip.activities.length} kegiatan`
                       : `${trip.activities.length} activities`}

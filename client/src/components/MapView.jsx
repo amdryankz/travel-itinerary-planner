@@ -62,7 +62,7 @@ export default function MapView({ trip, activities = [] }) {
   return (
     <div className="space-y-6">
       {/* Map Container */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         {/* Map Header */}
         <div className="bg-linear-to-r bg-primary-600  px-6 py-4">
           <div className="flex items-center space-x-3">
@@ -86,12 +86,12 @@ export default function MapView({ trip, activities = [] }) {
         />
 
         {/* Map Legend */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center space-x-2">
-                <Info size={16} className="text-gray-500" />
-                <span className="font-medium text-gray-700">Legenda:</span>
+                <Info size={16} className="text-gray-500 dark:text-gray-400" />
+                <span className="font-medium text-gray-700 dark:text-gray-200">Legenda:</span>
               </div>
               {Object.entries({
                 sightseeing: "Wisata",
@@ -107,7 +107,7 @@ export default function MapView({ trip, activities = [] }) {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: getCategoryColor(key) }}
                   ></div>
-                  <span className="text-gray-600">{label}</span>
+                  <span className="text-gray-600 dark:text-gray-400">{label}</span>
                 </div>
               ))}
             </div>
@@ -116,14 +116,14 @@ export default function MapView({ trip, activities = [] }) {
       </div>
 
       {/* Activities List by Day */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
           Lokasi Aktivitas per Hari
         </h3>
 
         {Object.entries(activitiesByDay).map(([day, dayActivities]) => (
           <div key={day} className="mb-6 last:mb-0">
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
               Hari {day}
             </h4>
             <div className="space-y-3">
@@ -147,7 +147,7 @@ export default function MapView({ trip, activities = [] }) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h5 className="font-semibold text-gray-900 truncate">
+                      <h5 className="font-semibold text-gray-900 dark:text-white truncate">
                         {activity.title}
                       </h5>
                       <span
@@ -164,12 +164,12 @@ export default function MapView({ trip, activities = [] }) {
                     </div>
                     {typeof activity.location === "string" &&
                     activity.location ? (
-                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                      <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
                         <MapPin size={14} />
                         <span className="truncate">{activity.location}</span>
                       </div>
                     ) : activity.location?.lat && activity.location?.lng ? (
-                      <div className="flex items-center space-x-1 text-sm text-gray-600">
+                      <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
                         <MapPin size={14} />
                         <span>
                           {activity.location.lat.toFixed(6)},{" "}
@@ -177,12 +177,12 @@ export default function MapView({ trip, activities = [] }) {
                         </span>
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-400 italic">
+                      <p className="text-sm text-gray-400 dark:text-gray-500 italic">
                         Lokasi tidak tersedia
                       </p>
                     )}
                     {activity.startTime && activity.endTime && (
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {activity.startTime} - {activity.endTime}
                       </p>
                     )}
@@ -194,8 +194,8 @@ export default function MapView({ trip, activities = [] }) {
         ))}
 
         {activities.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            <MapPin className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <MapPin className="h-12 w-12 mx-auto mb-2 text-gray-400 dark:text-gray-500" />
             <p>Belum ada aktivitas untuk ditampilkan di peta</p>
           </div>
         )}

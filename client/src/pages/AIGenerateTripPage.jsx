@@ -212,30 +212,30 @@ export default function AIGenerateTripPage() {
       {/* Header */}
       <div className="mb-8 text-center">
         <div className="flex justify-center mb-4">
-          <div className="bg-primary-100 p-3 rounded-full">
-            <Sparkles className="h-10 w-10 text-primary-600" />
+          <div className="bg-primary-100 dark:bg-primary-900/30 p-3 rounded-full">
+            <Sparkles className="h-10 w-10 text-primary-600 dark:text-primary-400" />
           </div>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           {t("aiGenerate.title")}
         </h1>
-        <p className="text-gray-600">{t("aiGenerate.subtitle")}</p>
+        <p className="text-gray-600 dark:text-gray-400">{t("aiGenerate.subtitle")}</p>
       </div>
 
       {/* Form */}
-      <div className="bg-white rounded-xl shadow-lg p-8">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Departure Location */}
           <div>
             <label
               htmlFor="departureLocation"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("aiGenerate.departureLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
+                <MapPin className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="text"
@@ -254,13 +254,13 @@ export default function AIGenerateTripPage() {
           <div>
             <label
               htmlFor="destination"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("aiGenerate.destinationLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
+                <MapPin className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="text"
@@ -280,13 +280,13 @@ export default function AIGenerateTripPage() {
             <div>
               <label
                 htmlFor="startDate"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("aiGenerate.startDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+                  <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="date"
@@ -303,13 +303,13 @@ export default function AIGenerateTripPage() {
             <div>
               <label
                 htmlFor="endDate"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("aiGenerate.endDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+                  <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="date"
@@ -330,13 +330,13 @@ export default function AIGenerateTripPage() {
             <div>
               <label
                 htmlFor="budget"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("aiGenerate.budgetLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-gray-400" />
+                  <DollarSign className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="number"
@@ -349,7 +349,7 @@ export default function AIGenerateTripPage() {
                   min="0"
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {t("aiGenerate.budgetHint")}
               </p>
             </div>
@@ -357,13 +357,13 @@ export default function AIGenerateTripPage() {
             <div>
               <label
                 htmlFor="participants"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("aiGenerate.participantsLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Users className="h-5 w-5 text-gray-400" />
+                  <Users className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="number"
@@ -381,7 +381,7 @@ export default function AIGenerateTripPage() {
 
           {/* Travel Style */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">
               {t("aiGenerate.travelStyleLabel")}
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -404,10 +404,10 @@ export default function AIGenerateTripPage() {
                   />
                   <div className="text-center">
                     <div className="text-3xl mb-2">{style.emoji}</div>
-                    <div className="font-semibold text-gray-900 mb-1">
+                    <div className="font-semibold text-gray-900 dark:text-white mb-1">
                       {style.name}
                     </div>
-                    <div className="text-xs text-gray-600">
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
                       {style.description}
                     </div>
                   </div>
@@ -420,13 +420,13 @@ export default function AIGenerateTripPage() {
           <div>
             <label
               htmlFor="preferences"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("aiGenerate.preferencesLabel")}
             </label>
             <div className="relative">
               <div className="absolute top-3 left-3 pointer-events-none">
-                <Heart className="h-5 w-5 text-gray-400" />
+                <Heart className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <textarea
                 id="preferences"
@@ -438,15 +438,15 @@ export default function AIGenerateTripPage() {
                 placeholder={t("aiGenerate.preferencesPlaceholder")}
               ></textarea>
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
               {t("aiGenerate.preferencesHint")}
             </p>
           </div>
 
           {/* Info Box */}
-          <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+          <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 rounded-lg p-4">
             <div className="flex items-start space-x-3">
-              <Sparkles className="h-5 w-5 text-primary-600 mt-0.5 shrink-0" />
+              <Sparkles className="h-5 w-5 text-primary-600 dark:text-primary-400 mt-0.5 shrink-0" />
               <div className="text-sm text-primary-900">
                 <p className="font-medium mb-1">
                   {t("aiGenerate.aiWillCreate")}

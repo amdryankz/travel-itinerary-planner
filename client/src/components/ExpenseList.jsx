@@ -37,11 +37,11 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
   if (expenses.length === 0) {
     return (
       <Card className="text-center py-12">
-        <Tag className="mx-auto text-gray-400 mb-4" size={48} />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <Tag className="mx-auto text-gray-400 dark:text-gray-500 mb-4" size={48} />
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           {t("components.expenseList.noExpenses")}
         </h3>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           {t("components.expenseList.startTracking")}
         </p>
       </Card>
@@ -82,23 +82,23 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
                     {categoryIcons[expense.category]}
                   </span>
                   <div>
-                    <h4 className="font-semibold text-gray-900">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
                       {expense.description ||
                         expense.category.charAt(0).toUpperCase() +
                           expense.category.slice(1)}
                     </h4>
-                    <div className="flex items-center gap-3 text-sm text-gray-600 mt-1">
+                    <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mt-1">
                       <span className="flex items-center gap-1">
                         <Calendar size={14} />
                         {format(new Date(expense.date), "MMM d, yyyy")}
                       </span>
-                      <span className="px-2 py-0.5 bg-gray-100 rounded text-xs">
+                      <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs">
                         {t(
                           `components.expenseList.categories.${expense.category}`
                         )}
                       </span>
                       {expense.activity && (
-                        <span className="text-xs text-primary-600">
+                        <span className="text-xs text-primary-600 dark:text-primary-400">
                           {t(`components.expenseList.day`)}{" "}
                           {expense.activity.day}: {expense.activity.title}
                         </span>
@@ -110,7 +110,7 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
 
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="text-xl font-bold text-gray-900">
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">
                     Rp {expense.amount.toLocaleString()}
                   </p>
                 </div>
@@ -118,13 +118,13 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => onEdit(expense)}
-                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
                   >
                     <Edit size={18} />
                   </button>
                   <button
                     onClick={() => onDelete(expense.id)}
-                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -137,7 +137,7 @@ const ExpenseList = ({ expenses, onEdit, onDelete }) => {
 
       {filteredExpenses.length === 0 && (
         <Card className="text-center py-8">
-          <p className="text-gray-500">No expenses in this category</p>
+          <p className="text-gray-500 dark:text-gray-400">No expenses in this category</p>
         </Card>
       )}
     </div>

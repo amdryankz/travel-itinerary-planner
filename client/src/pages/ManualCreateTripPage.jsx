@@ -75,29 +75,29 @@ export default function ManualCreateTripPage() {
       <div className="mb-8 text-center">
         <div className="flex justify-center mb-4">
           <div className="bg-green-100 p-4 rounded-full">
-            <PenTool className="h-12 w-12 text-green-600" />
+            <PenTool className="h-12 w-12 text-green-600 dark:text-green-400" />
           </div>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           {t("manualCreate.title")}
         </h1>
-        <p className="text-gray-600">{t("manualCreate.subtitle")}</p>
+        <p className="text-gray-600 dark:text-gray-400">{t("manualCreate.subtitle")}</p>
       </div>
 
       {/* Form */}
-      <div className="bg-white rounded-xl shadow-lg p-8">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Trip Title */}
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("manualCreate.tripTitleLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FileText className="h-5 w-5 text-gray-400" />
+                <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="text"
@@ -116,13 +116,13 @@ export default function ManualCreateTripPage() {
           <div>
             <label
               htmlFor="departureLocation"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("manualCreate.departureLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
+                <MapPin className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="text"
@@ -140,13 +140,13 @@ export default function ManualCreateTripPage() {
           <div>
             <label
               htmlFor="destination"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("manualCreate.destinationLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
+                <MapPin className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="text"
@@ -166,13 +166,13 @@ export default function ManualCreateTripPage() {
             <div>
               <label
                 htmlFor="startDate"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("manualCreate.startDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+                  <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="date"
@@ -189,13 +189,13 @@ export default function ManualCreateTripPage() {
             <div>
               <label
                 htmlFor="endDate"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
               >
                 {t("manualCreate.endDateLabel")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-5 w-5 text-gray-400" />
+                  <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="date"
@@ -215,13 +215,13 @@ export default function ManualCreateTripPage() {
           <div>
             <label
               htmlFor="budget"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("manualCreate.budgetLabel")}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <DollarSign className="h-5 w-5 text-gray-400" />
+                <DollarSign className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="number"
@@ -234,7 +234,7 @@ export default function ManualCreateTripPage() {
                 min="0"
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
               {t("manualCreate.budgetHint")}
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function ManualCreateTripPage() {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
             >
               {t("manualCreate.descriptionLabel")}
             </label>

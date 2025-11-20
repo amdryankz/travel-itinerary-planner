@@ -164,12 +164,12 @@ const ActivityForm = () => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           {activityId
             ? t("activityForm.editTitle")
             : t("activityForm.addTitle")}
         </h1>
-        <p className="text-gray-600">{t("activityForm.subtitle")}</p>
+        <p className="text-gray-600 dark:text-gray-400">{t("activityForm.subtitle")}</p>
       </div>
 
       <Card>
@@ -199,7 +199,7 @@ const ActivityForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 {t("activityForm.description")}
               </label>
               <textarea
@@ -214,7 +214,7 @@ const ActivityForm = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 {t("activityForm.category")}
               </label>
               <select
@@ -281,7 +281,7 @@ const ActivityForm = () => {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 {t("activityForm.location")}
               </label>
               <LocationPicker
@@ -298,7 +298,7 @@ const ActivityForm = () => {
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 {t("activityForm.notes")}
               </label>
               <textarea

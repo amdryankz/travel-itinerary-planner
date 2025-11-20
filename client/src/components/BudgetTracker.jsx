@@ -28,11 +28,11 @@ const BudgetTracker = ({ stats }) => {
       {/* Budget Overview */}
       <Card>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             {t("components.budgetTracker.title")}
           </h3>
           {isOverBudget && (
-            <span className="flex items-center gap-1 text-red-600 text-sm">
+            <span className="flex items-center gap-1 text-red-600 dark:text-red-400 text-sm">
               <AlertCircle size={16} />
               {t("components.budgetTracker.overBudget")}
             </span>
@@ -41,16 +41,16 @@ const BudgetTracker = ({ stats }) => {
 
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               {t("components.budgetTracker.budget")}
             </span>
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
               Rp {stats.budget.toLocaleString()}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               {t("components.budgetTracker.spent")}
             </span>
             <span
@@ -63,7 +63,7 @@ const BudgetTracker = ({ stats }) => {
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               {t("components.budgetTracker.remaining")}
             </span>
             <span
@@ -78,11 +78,11 @@ const BudgetTracker = ({ stats }) => {
 
           {/* Progress Bar */}
           <div className="pt-2">
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
+            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
               <span>{t("components.budgetTracker.budgetUsage")}</span>
               <span>{percentageUsed.toFixed(1)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
               <div
                 className={`h-full ${getProgressColor()} transition-all duration-300`}
                 style={{ width: `${Math.min(percentageUsed, 100)}%` }}
@@ -93,10 +93,10 @@ const BudgetTracker = ({ stats }) => {
           {/* Average per day */}
           <div className="pt-2 border-t">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-sm">
+              <span className="text-gray-600 dark:text-gray-400 text-sm">
                 {t("components.budgetTracker.averagePerDay")}
               </span>
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 Rp {parseFloat(stats.averagePerDay || 0).toLocaleString()}
               </span>
             </div>
@@ -106,7 +106,7 @@ const BudgetTracker = ({ stats }) => {
 
       {/* Category Breakdown */}
       <Card>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           {t("components.budgetTracker.spendingByCategory")}
         </h3>
 
@@ -127,15 +127,15 @@ const BudgetTracker = ({ stats }) => {
             return (
               <div key={category}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm text-gray-600 capitalize">
+                  <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
                     {categoryIcons[category]}{" "}
                     {t(`components.expenseList.categories.${category}`)}
                   </span>
-                  <span className="text-sm font-semibold text-gray-900">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
                     Rp {amount.toLocaleString()} ({percentage}%)
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div
                     className="h-full bg-primary-500 rounded-full transition-all duration-300"
                     style={{ width: `${percentage}%` }}
@@ -147,7 +147,7 @@ const BudgetTracker = ({ stats }) => {
         </div>
 
         {Object.keys(stats.byCategory || {}).length === 0 && (
-          <p className="text-gray-500 text-center py-4">
+          <p className="text-gray-500 dark:text-gray-400 text-center py-4">
             {" "}
             {t("components.budgetTracker.noExpenses")}
           </p>
@@ -157,18 +157,18 @@ const BudgetTracker = ({ stats }) => {
       {/* Quick Stats */}
       <div className="grid grid-cols-2 gap-4">
         <Card className="text-center">
-          <DollarSign className="mx-auto text-primary-600 mb-2" size={32} />
-          <p className="text-2xl font-bold text-gray-900">{stats.count}</p>
-          <p className="text-sm text-gray-600">
+          <DollarSign className="mx-auto text-primary-600 dark:text-primary-400 mb-2" size={32} />
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.count}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {t("components.budgetTracker.totalExpenses")}
           </p>
         </Card>
 
         <Card className="text-center">
           {isOverBudget ? (
-            <TrendingDown className="mx-auto text-red-600 mb-2" size={32} />
+            <TrendingDown className="mx-auto text-red-600 dark:text-red-400 mb-2" size={32} />
           ) : (
-            <TrendingUp className="mx-auto text-green-600 mb-2" size={32} />
+            <TrendingUp className="mx-auto text-green-600 dark:text-green-400 mb-2" size={32} />
           )}
           <p
             className={`text-2xl font-bold ${
@@ -177,7 +177,7 @@ const BudgetTracker = ({ stats }) => {
           >
             {percentageUsed.toFixed(0)}%
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {t("components.budgetTracker.budgetUsed")}
           </p>
         </Card>
